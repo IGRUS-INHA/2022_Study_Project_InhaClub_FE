@@ -6,15 +6,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class DemoUserService {
     private final MemoryUserRepository memoryUserRepository = new MemoryUserRepository();
-    private static long sequence = 0L;
-
-    private void setSequence(long _seq) { }
-    private long getSequence() { return this.sequence; }
 
     /** 회원가입 함수 */
     public String join(User _user) {

@@ -12,11 +12,6 @@ public class MemoryUserRepository implements UserRepository {
     private static Map<Long, User> store = new HashMap<>();
     private static long sequence = 0L;
 
-    /*
-    private long getSequence() { return this.sequence; }
-    private void setSequence(long _seq) { this.sequence = _seq; }
-    */
-
     /** 받아온 유저 데이터를 메모리에 저장 */
     @Override
     public User save(User _user) {
@@ -24,18 +19,6 @@ public class MemoryUserRepository implements UserRepository {
         store.put(_user.getId(), _user);
         return _user;
     }
-
-    /*
-    private void assignSequence(){
-
-        Random r = new Random();
-        r.setSeed(System.currentTimeMillis());
-        while(this.findById(this.getSequence()).isPresent())
-        {
-            this.setSequence(r.nextLong());
-        }
-    }
-    */
 
     /** 유저의 고유 id로 검색 */
     @Override
