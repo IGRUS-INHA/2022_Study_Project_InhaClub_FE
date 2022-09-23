@@ -10,8 +10,8 @@ public interface UserRepository {
     User save(User _user);
     Optional<User> findById(long _id);
     Optional<User> findByUserId(String _id);
-    Optional<User> findByUserPw(String _pw);
     Optional<User> findByUserNickname(String _nick);
     Optional<User> findByUserEmail(String _email);
+    Optional<User> findByUserPhone(String _phone);
     List<User> getAllUser();
 }

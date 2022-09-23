@@ -25,7 +25,10 @@ public class User {
        /** 유저의 이메일 */
        private String userEmail;
 
+       /** 유저의 전화번호 */
+       private String userPhone;
+
        /** 가입된 클럽 */
-       // private List<String> joinedClub;
+       //private List<String> joinedClub;
 
 }

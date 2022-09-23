@@ -25,6 +25,7 @@ public class MemoryUserRepositoryTest {
         user.setUserPw("1q2w3e4r!");
         user.setUserNickname("kim");
         user.setUserEmail("a@a.com");
+        user.setUserPhone("010-1111-1111");
 
         // when
         repository.save(user);
@@ -42,6 +43,7 @@ public class MemoryUserRepositoryTest {
         user1.setUserPw("1q2w3e4r!");
         user1.setUserNickname("kim");
         user1.setUserEmail("a@a.com");
+        user1.setUserPhone("010-1111-1111");
         repository.save(user1);
 
         User user2 = new User();
@@ -49,10 +51,11 @@ public class MemoryUserRepositoryTest {
         user2.setUserPw("1q2w3e4r!");
         user2.setUserNickname("lee");
         user2.setUserEmail("b@b.com");
+        user2.setUserPhone("010-2222-2222");
         repository.save(user1);
 
         // when
-        User result = repository.findById(1).get();
+        User result = repository.findById(user1.getId()).get();
 
         // then
         assertThat(result).isEqualTo(user1);
@@ -66,6 +69,7 @@ public class MemoryUserRepositoryTest {
         user1.setUserPw("1q2w3e4r!");
         user1.setUserNickname("kim");
         user1.setUserEmail("a@a.com");
+        user1.setUserPhone("010-1111-1111");
         repository.save(user1);
 
         User user2 = new User();
@@ -73,10 +77,63 @@ public class MemoryUserRepositoryTest {
         user2.setUserPw("1q2w3e4r!");
         user2.setUserNickname("lee");
         user2.setUserEmail("b@b.com");
-        repository.save(user1);
+        user2.setUserPhone("010-2222-2222");
+        repository.save(user2);
 
         // when
         User result = repository.findByUserId("case1").get();
+
+        // then
+        assertThat(result).isEqualTo(user1);
+    }
+
+    @Test
+    public void findByUserNickname() {
+        // given
+        User user1 = new User();
+        user1.setUserId("case1");
+        user1.setUserPw("1q2w3e4r!");
+        user1.setUserNickname("kim");
+        user1.setUserEmail("a@a.com");
+        user1.setUserPhone("010-1111-1111");
+        repository.save(user1);
+
+        User user2 = new User();
+        user2.setUserId("case2");
+        user2.setUserPw("1q2w3e4r!");
+        user2.setUserNickname("lee");
+        user2.setUserEmail("b@b.com");
+        user2.setUserPhone("010-2222-2222");
+        repository.save(user2);
+
+        // when
+        User result = repository.findByUserNickname("kim").get();
+
+        // then
+        assertThat(result).isEqualTo(user1);
+    }
+
+    @Test
+    public void findByUserEmail() {
+        // given
+        User user1 = new User();
+        user1.setUserId("case1");
+        user1.setUserPw("1q2w3e4r!");
+        user1.setUserNickname("kim");
+        user1.setUserEmail("a@a.com");
+        user1.setUserPhone("010-1111-1111");
+        repository.save(user1);
+
+        User user2 = new User();
+        user2.setUserId("case2");
+        user2.setUserPw("1q2w3e4r!");
+        user2.setUserNickname("lee");
+        user2.setUserEmail("b@b.com");
+        user2.setUserPhone("010-2222-2222");
+        repository.save(user2);
+
+        // when
+        User result = repository.findByUserEmail("a@a.com").get();
 
         // then
         assertThat(result).isEqualTo(user1);
@@ -90,14 +147,16 @@ public class MemoryUserRepositoryTest {
         user1.setUserPw("1q2w3e4r!");
         user1.setUserNickname("kim");
         user1.setUserEmail("a@a.com");
+        user1.setUserPhone("010-1111-1111");
         repository.save(user1);
 
         User user2 = new User();
         user2.setUserId("case2");
         user2.setUserPw("1q2w3e4r!");
-        user2.setUserNickname("kim");
-        user2.setUserEmail("a@a.com");
-        repository.save(user1);
+        user2.setUserNickname("lee");
+        user2.setUserEmail("b@b.com");
+        user2.setUserPhone("010-2222-2222");
+        repository.save(user2);
 
         // when
         List<User> result = repository.getAllUser();
