@@ -1,16 +1,12 @@
 package Team7.InDaClub.Repository;
 
 import Team7.InDaClub.Domain.Club;
-
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
-public interface ClubRepository {
-    Club save(Club _club);
-    Optional<Club> findById(long _id);
-    Optional<Club> findByClubName(String _name);
-    Optional<Club> findByClubRep(String _rep);
-    Optional<Club> findByClubRoom(String _room);
-    List<String> getClubInfoByName(String _name);
-    List<Club> getAllClub();
+@Repository
+public interface ClubRepository extends JpaRepository<Club, Long> {
+    Optional<Club> findByName(String _name);
+    Optional<Club> findByRepresentative(String _name);
 }

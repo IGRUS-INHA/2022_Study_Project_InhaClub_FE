@@ -2,31 +2,54 @@ package Team7.InDaClub.Domain;
 
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@ToString
 @Getter
 @Setter
+@Builder
+@Entity(name = "club")
 public class Club {
 
-    /** 동아리의 고유 id */
-    public long clubId;
+    /** 동아리 고유 ID */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, unique = true)
+    private Long id;
 
-    /** 동아리 이름 */
-    private String clubName;
+    /** 동아리의 이름 */
+    @Column(nullable = false, unique = true, length = 100)
+    private String name;
+
+    /** 동아리 SNS */
+    @Column
+    private String sns;
+
+    /** 동아리의 관심사 */
+    @Column(nullable = false)
+    private String interest;
+
+    /** 동아리 모집 여부 */
+    @Column(nullable = false)
+    private Boolean inRecruit;
+
+    /** 동아리 모집 기한 */
+    @Column(nullable = false)
+    private String recruitDate;
+
+    /** 동아리 모집 대상 */
+    @Column(nullable = false)
+    private String recruitTarget;
+
+    /** 동아리 방 위치 */
+    @Column(nullable = false)
+    private String room;
 
     /** 동아리 대표자 */
-    private String clubRep;
-
-    /** 동아리 장소 */
-    private String clubRoom;
-
-    public List<String> getClubData() {
-        List<String> output = new ArrayList<>();
-        output.add(this.getClubName());
-        output.add(this.getClubRep());
-        output.add(this.getClubRoom());
-        return output;
-    }
+    @Column(nullable = false)
+    private String representative;
 
 }
