@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div class="container">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>이름</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="club : ${club}">
+                <td th:text="${club.name}"></td>
+                <td th:text="${club.sns}"></td>
+                <td th:text="${club.interest}"></td>
+                <td th:text="${club.room}"></td>
+                <td th:text="${club.inRecruit}"></td>
+                <td th:text="${club.recruitDate}"></td>
+                <td th:text="${club.recruitTarget}"></td>
+                <td th:text="${club.representative}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

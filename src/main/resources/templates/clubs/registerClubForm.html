@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+  <form action="/clubs/new" method="post">
+    <div class="form-group">
+      <label for="name">동아리 이름</label>
+      <input type="text" id="name" name="name" placeholder="동아리 이름을 입력하세요"> <br>
+      <label for="sns">SNS</label>
+      <input type="text" id="sns" name="sns" placeholder="SNS를 입력하세요"> <br>
+      <label for="interest">관심사</label>
+      <input type="text" id="interest" name="interest" placeholder="동아리의 관심사를 입력하세요"> <br>
+      <label for="room">동아리방</label>
+      <input type="text" id="room" name="room" placeholder="동아리방을 입력하세요"> <br>
+      <label for="representative">대표자</label>
+      <input type="text" id="representative" name="representative" placeholder="대표자 이름을 입력하세요"> <br>
+      <label for="recruitTarget">동아리 모집 대상</label>
+      <input type="text" id="recruitTarget" name="recruitTarget" placeholder="동아리 모집 대상을 입력하세요"> <br>
+    </div>
+    <button type="submit">등록</button>
+  </form>
+</div> <!-- /container -->
+</body>
+</html>
