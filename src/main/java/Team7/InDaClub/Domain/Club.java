@@ -4,10 +4,10 @@ import lombok.*;
 
 import javax.persistence.*;
 
+/** 동아리 관련 Entity 정의 */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@ToString
 @Getter
 @Setter
 @Builder

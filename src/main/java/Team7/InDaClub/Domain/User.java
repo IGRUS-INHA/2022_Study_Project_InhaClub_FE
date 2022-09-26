@@ -8,7 +8,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@ToString
 @Getter
 @Setter
 @Builder
@@ -33,11 +32,12 @@ public class User {
     private String userNickname;
 
     /** 유저의 이메일 */
-    @Column(length = 100)
+    @Column(unique = true, nullable = false, length = 200)
     private String userEmail;
 
     /** 유저의 전화번호 */
     @Column(length = 100)
     private String userPhone;
+
 
 }
