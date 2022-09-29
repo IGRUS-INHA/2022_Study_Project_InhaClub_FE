@@ -3,6 +3,7 @@ package Team7.InDaClub.Controller;
 import Team7.InDaClub.Controller.Form.ClubForm;
 import Team7.InDaClub.Domain.Entity.Club;
 import Team7.InDaClub.Service.ClubService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,13 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Controller
 public class ClubController {
-    private ClubService clubService;
-
-    public ClubController(ClubService _clubService) {
-        this.clubService = _clubService;
-    }
+    private final ClubService clubService;
 
     @GetMapping(value = "/club/register")
     public String createForm() {

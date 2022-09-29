@@ -6,23 +6,23 @@ import Team7.InDaClub.Domain.Dto.TokenResponse;
 import Team7.InDaClub.Domain.Entity.User;
 import Team7.InDaClub.Service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Controller
-@RequestMapping(value = "/auth")
+@RequiredArgsConstructor
+@RequestMapping(value = "/user")
 public class AuthController {
+    @Autowired
     private final AuthService authService;
 
-    public AuthController (AuthService _authService) {
-        this.authService = _authService;
+    @PostMapping(value = "/user/auth")
+    public String a() {
+        return "/user/authForm";
     }
-
-    @GetMapping(value = "/user/auth")
-    public String createAuthForm() { return "/user/authForm"; }
 
     /** 회원가입 */
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
