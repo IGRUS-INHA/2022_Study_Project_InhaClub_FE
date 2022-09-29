@@ -1,4 +1,4 @@
-package Team7.InDaClub.Domain;
+package Team7.InDaClub.Domain.Entity;
 
 import lombok.*;
 
