@@ -32,7 +32,7 @@ public class User implements UserDetails {
     private String userId;
 
     /** 유저의 로그인 PW */
-    @Column(nullable = false, length = 45)
+    @Column(nullable = false, length = 200)
     private String userPw;
 
     /** pw 변조를 위한 salt */

@@ -24,27 +24,31 @@ public class UserTest {
 
     @Test
     public void save() {
-        User user = User.builder()
-                .userId("case1")
-                .userEmail("a@a.com")
-                .userPhone("010-1212-2222")
-                .userNickname("wnwn")
-                .userPw("1q2w3e4r!")
-                .build();
 
-        Optional<User> alreadyUser = userRepository.findByUserId(user.getUserId());
-        // .orElseThrow(()-> new UserIDDuplicateException("userID duplicated", ErrorCode.USERID_DUPLICATION));
+        for (int i = 0; i < 10; i++) {
+            User user = User.builder()
+                    .userId("case" + i)
+                    .userEmail("a" + i + "@a.com")
+                    .userPhone("010-1111-111" + i)
+                    .userNickname("kim" + i)
+                    .userPw(i + "q2w3e4r!")
+                    .build();
 
-        if(alreadyUser.isPresent())  {
-            throw new UserIDDuplicateException("UserID duplicated", ErrorCode.USERID_DUPLICATION);
+            Optional<User> alreadyUser = userRepository.findByUserId(user.getUserId());
+            // .orElseThrow(()-> new UserIDDuplicateException("userID duplicated", ErrorCode.USERID_DUPLICATION));
+
+            if(alreadyUser.isPresent())  {
+                throw new UserIDDuplicateException("UserID duplicated", ErrorCode.USERID_DUPLICATION);
+            }
+            else {
+                String password = user.getPassword();
+                String salt= saltUtil.genSalt();
+                user.setSalt(salt);
+                user.setUserPw(saltUtil.encodePassword(salt, password));
+            }
+            userRepository.save(user);
         }
-        else {
-            String password = user.getPassword();
-            String salt= saltUtil.genSalt();
-            user.setSalt(salt);
-            user.setUserPw(saltUtil.encodePassword(salt, password));
-        }
-        userRepository.save(user);
+
 
     }
 

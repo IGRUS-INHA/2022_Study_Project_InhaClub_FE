@@ -9,7 +9,6 @@ public class EncryptPw {
     public String encodePassword (String _salt, String _pw) {
         return BCrypt.hashpw(_pw, _salt);
     }
-
     public String genSalt() {
         return BCrypt.gensalt();
     }
