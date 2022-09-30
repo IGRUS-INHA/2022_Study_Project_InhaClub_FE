@@ -50,7 +50,6 @@ public class LoginTest {
                 auth.setUserId(user.getId());
                 auth.setRefreshToken(refreshToken);
                 authRepository.save(auth);
-                System.out.println("저장되나?");
             } else {
                 // 해당 ID의 refreshToken update;
                 alUser.ifPresent(selectUser -> {

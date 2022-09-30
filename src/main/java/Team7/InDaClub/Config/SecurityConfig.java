@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/** Jwt 의 설정 정의 */
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
@@ -24,15 +25,15 @@ public class SecurityConfig {
     private final JwtProvider jwtProvider;
 
     @Bean
-    public PasswordEncoder passwordEncoder() throws Exception {
+    public PasswordEncoder passwordEncoder() throws Exception { // Password Encoder 정의
         return new BCryptPasswordEncoder();
     }
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception { // AuthenticationManager 정의
         return authenticationConfiguration.getAuthenticationManager();
     }
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception { // filterChain 의 설정 정의
         http
                 .httpBasic().disable() // Security 기본 로그인페이지 미제공
                 .formLogin().disable()// Security 기본 폼 로그인 미제공
@@ -53,13 +54,6 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring().mvcMatchers(
-                "/v2/api-docs",
-                "/swagger-resources/**",
-                "/swagger-ui/**",
-                "/swagger-ui.html",
-                "/swagger/**",
-                "/webjars/**",
-                "/v3/api-docs/**"
                 );
     }
 }

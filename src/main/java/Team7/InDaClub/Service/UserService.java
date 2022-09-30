@@ -15,21 +15,6 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public String join(User _user) {
-        validateDuplicateUserId(_user);
-        userRepository.save(_user);
-        return _user.getUserId();
-    }
-
-    @Transactional
-    private void validateDuplicateUserId(User _user) {
-        userRepository.findByUserId(_user.getUserId())
-                .ifPresent(m -> {
-                    throw new IllegalStateException("이미 존재하는 회원입니다.");
-                });
-    }
-
-    @Transactional
     public List<User> findUsers() { return userRepository.findAll();}
     @Transactional
     public Optional<User> findOne(String _userId) {

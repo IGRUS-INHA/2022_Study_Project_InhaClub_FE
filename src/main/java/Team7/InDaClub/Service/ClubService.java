@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+/** Club 관련 서비스 정의 */
 @Service
 @RequiredArgsConstructor
 public class ClubService {

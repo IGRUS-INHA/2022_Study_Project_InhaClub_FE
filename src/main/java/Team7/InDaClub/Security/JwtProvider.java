@@ -93,7 +93,9 @@ public class JwtProvider {
                 .getBody();
     }
 
-    /** access token 이 유효한 상태인지 확인하는 함수 */
+    /** access token 이 유효한 상태인지 확인하는 함수
+     * 토큰이 유효하면 true, 아니면 false
+     * */
     public boolean isValidAccessToken(String _token) {
         try {
             Claims accessToken = getClaimsFormAccessToken(_token);

@@ -3,6 +3,7 @@ package Team7.InDaClub.Domain.Dto;
 import Team7.InDaClub.Domain.Entity.User;
 import lombok.*;
 
+/** User 객체의 dto */
 @Getter
 @Setter
 @ToString
@@ -28,6 +29,7 @@ public class UserDto {
     /** 유저의 전화번호 */
     private String userPhone;
 
+    /** UserDto 객체를 User 객체로 변환하는 함수 */
     public User toEntity() {
         User build = User.builder()
                 .id(id)

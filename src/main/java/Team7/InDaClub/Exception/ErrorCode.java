@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+/** 이 프로젝트에서만 사용할 Error Code 의 정의 모음 */
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
