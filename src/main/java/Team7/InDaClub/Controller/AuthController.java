@@ -5,28 +5,34 @@ import Team7.InDaClub.Domain.Dto.LoginDto;
 import Team7.InDaClub.Domain.Dto.TokenResponse;
 import Team7.InDaClub.Domain.Entity.User;
 import Team7.InDaClub.Service.AuthService;
+import Team7.InDaClub.Service.EmailAuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "/user")
+@Slf4j
 public class AuthController {
-    @Autowired
     private final AuthService authService;
+    private final EmailAuthService emailAuthService;
 
-    @PostMapping(value = "/user/auth")
-    public String a() {
+    @GetMapping(value = "/user/auth")
+    public String createAuthForm() {
         return "/user/authForm";
+    }
+
+    @GetMapping(value = "/user/login")
+    public String createLoginForm() {
+        return "/user/loginForm";
     }
 
     /** 회원가입 */
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
-    public ResponseEntity<User> join(@RequestBody JoinDto joinDto) throws Exception {
+    public String join(JoinDto joinDto) throws Exception {
         User user = User.builder()
                 .userId(joinDto.getUserId())
                 .userPw(joinDto.getUserPw())
@@ -35,25 +41,30 @@ public class AuthController {
                 .userPhone(joinDto.getUserPhone())
                 .build();
 
-
         User responseUser = authService.join(user);
         if (responseUser == null) {
-            // 로그를 찍을 자리
+            log.info("Failed to join user.");// 로그를 찍을 자리
             throw new Exception("회원 저장에 실패했습니다.");
         } else {
-            // 로그를 찍을 자리
-            return ResponseEntity.status(HttpStatus.OK).body(responseUser);
+            log.info("User(" + user.getUserId() +") has be registered.");// 로그를 찍을 자리
+            //return ResponseEntity.status(HttpStatus.OK).body(responseUser); 함수의 return이 ResponseEntity<User> 일때 썼던 return
+            return "redirect:/";
         }
     }
 
     /** 로그인 */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity login(@RequestBody LoginDto loginDto) throws Exception {
+    public ResponseEntity login(LoginDto loginDto) throws Exception {
         TokenResponse token = authService.doLogin(loginDto);
-        // 로그를 찍는 자리
+        log.info("login - " + loginDto.getUserId());
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
-   // @PostMapping("/accessToken")
+    @RequestMapping(value = "/mailConfirm", method = RequestMethod.POST)
+    public String emailConfirm(@RequestParam("email") String email) throws Exception {
+        String code = emailAuthService.sendSimpleMessage(email);
+        log.info("email chk : " + email);
+        return code;
+    }
 
 }

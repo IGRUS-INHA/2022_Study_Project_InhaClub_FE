@@ -1,5 +1,49 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.1.js">
+    $checkEmail.click(function() {
+      alert("asdf")
+      $.ajax({
+        type: "POST",
+        url : "/mailConfirm",
+        data : {
+          "email" : userEmail.val()
+        },
+        success : function(data) {
+          alert("이메일이 발송되었습니다.")
+          console.log("data : " + data)
+          chkEmailConfirm(data, $myMailConfirm, $myMailConfirmTxt);
+        },
+        error : function() {
+          alert("Error!")
+        }
+      })
+    })
+
+    function chkEmailConfirm(data, $myMailConfirm, $myMailConfirmTxt) {
+      $myMailConfirm.on("keyup", function() {
+        if (data != $myMailConfirm.val()) {
+          mailConfirmChk = false;
+          $myMailConfirmTxt.html("<span id = 'mailConfirmChk'>인증번호가 잘못되었습니다.</span>")
+          $("mailConfirmChk").css({
+            "color" : "#FA3E3E",
+            "font-weight" : "bold",
+            "font-size" : "10px"
+          })
+        } else {
+          mailConfirmChk = true;
+          $myMailConfirmTxt.html("<span id = 'mailConfirmChk'>인증 확인</span>")
+          $("mailConfirmChk").css({
+            "color" : "#0D6EFD",
+            "font-weight" : "bold",
+            "font-size" : "10px"
+          })
+        }
+      })
+    }
+  </script>
+</head>
 <body>
 <div class="container">
   <form action="/auth" method="post">
@@ -10,10 +54,17 @@
       <input type="text" id="userPw" name="userPw" placeholder="Pw를 입력하세요"> <br>
       <label for="userNickname">별명</label>
       <input type="text" id="userNickname" name="userNickname" placeholder="이름을 입력하세요"> <br>
-      <label for="userEmail">이메일</label>
-      <input type="text" id="userEmail" name="userEmail" placeholder="이메일을 입력하세요"> <br>
       <label for="userPhone">전화번호</label>
       <input type="text" id="userPhone" name="userPhone" placeholder="전화번호를 입력하세요"> <br>
+    </div>
+    <div>
+      <label for="userEmail">이메일</label>
+      <input type="text" id="userEmail" name="userEmail" placeholder="이메일을 입력하세요"> <br>
+    </div>
+    <button type="button", id="checkEmail">인증번호</button>
+    <div>
+      <label for="myMailConfirm" id="myMailConfirmTxt">인증번호를 입력해주세요</label>
+      <input type="text" class="form-control" id="myMailConfirm">
     </div>
     <button type="submit">등록</button>
   </form>

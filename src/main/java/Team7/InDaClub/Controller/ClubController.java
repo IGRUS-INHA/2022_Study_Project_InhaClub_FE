@@ -23,8 +23,8 @@ public class ClubController {
 
     @PostMapping(value = "/club/register")
     public String create(ClubForm form) {
-        Club tmpClub = new Club(0L, form.getName(), form.getSns(), form.getInterest(), true, "2022-12-31", form.getRecruitTarget(), form.getRoom(), form.getRepresentative());
-        clubService.clubRegister(tmpClub);
+        //Club tmpClub = new Club(0L, form.getName(), form.getSns(), form.getInterest(), true, "2022-12-31", form.getRecruitTarget(), form.getRoom(), form.getRepresentative());
+        //clubService.clubRegister(tmpClub);
         return "redirect:/";
     }
 

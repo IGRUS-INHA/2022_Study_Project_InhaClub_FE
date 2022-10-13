@@ -36,4 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 application.properties
+email.properties
 /src/main/resources/asdf.txt

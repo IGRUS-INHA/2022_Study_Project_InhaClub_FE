@@ -12,6 +12,7 @@ import Team7.InDaClub.Security.EncryptPw;
 import Team7.InDaClub.Security.JwtProvider;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 /** 회원 가입, 로그인 관련 서비스 */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -44,6 +46,7 @@ public class AuthService {
             _user.setRoles(Collections.singletonList("ROLE_USER")); // user 의 권한 정의
         }
 
+        log.info("ID: "+ _user.getUserId() + " is been saved.");
         return userRepository.save(_user); // DB에 User를 저장한다.
     }
 
@@ -54,7 +57,7 @@ public class AuthService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다.")); // _request 에서 받아온 user ID 로 중복 검사를 해 중복이면 예외처리를 해준다.
 
         if (!passwordEncoder.matches(_request.getUserPw(), user.getPassword())) { // 만약 passwordEncoder 에서 _request 에서 받아온 pw와 DB 에서 받아온 pw를 대조해 값이 다르면,
-            // 로그를 찍을 자리
+            log.info(_request.getUserId() + "'s password is not matched.");// 로그를 찍을 자리
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다."); // pw가 일치하지 않는다고 하고 예외처리를 한다.
         }
 
@@ -104,9 +107,9 @@ public class AuthService {
 
             if (refreshToken.equals(tokenFromDB)) { // 찾아온 refresh token 과 DB 에서 찾아온 토큰이 같으면
                 accessToken = jwtProvider.createAccessToken(user.get().getUserId()); // access token 을 재발급해준다.
-                // 로그를 찍을 자리
+                log.info("ID : " + user.get().getUserId() + "'s Access Token is created."); // 로그를 찍을 자리
             } else { // 아니면?
-                // 로그를 찍을 자리
+                log.info("ID : " + user.get().getUserId() + "'s Token has issued."); // 로그를 찍을 자리
                 accessToken = null; // 둘 다 null 로 만들어버린다.
                 refreshToken = null;
             }
@@ -128,13 +131,13 @@ public class AuthService {
             String userId = (String) claims.get("userId"); // claim 에서 userId 를 찾아온다.
             User user = userRepository.findByUserId(userId) // user 객체를 선언해 userID 에 맞는 user 를 찾아온다.
                     .orElseThrow(() -> { // 없으면?
-                        // 로그를 찍을 자리
+                        log.info(userId + " is not found.");// 로그를 찍을 자리
                         return new UsernameNotFoundException("존재하지 않는 사용자입니다."); // 예외 처리
                     });
-            // 로그를 찍을 자리
+            log.info(userId + "is be searched - return " + user.getUserId());// 로그를 찍을 자리
             return user; // 찾아온 유저를 반환해준다.
         } else { // access token 이 만료되었으면?
-            // 로그를 찍을 자리
+            log.info("Access token has expired.");// 로그를 찍을 자리
             throw new Exception("토큰이 만료되었습니다."); // 예외 처리
         }
 

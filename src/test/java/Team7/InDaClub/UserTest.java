@@ -5,12 +5,14 @@ import Team7.InDaClub.Exception.ErrorCode;
 import Team7.InDaClub.Exception.UserIDDuplicateException;
 import Team7.InDaClub.Repository.UserRepository;
 import Team7.InDaClub.Security.EncryptPw;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
+@Slf4j
 @SpringBootTest
 public class UserTest {
 
@@ -25,11 +27,11 @@ public class UserTest {
     @Test
     public void save() {
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i < 10; i++) {
             User user = User.builder()
                     .userId("case" + i)
                     .userEmail("a" + i + "@a.com")
-                    .userPhone("010-1111-111" + i)
+                    .userPhone("010-1111-11" + i)
                     .userNickname("kim" + i)
                     .userPw(i + "q2w3e4r!")
                     .build();

@@ -24,32 +24,12 @@ public class Club {
     @Column(nullable = false, unique = true, length = 100)
     private String name;
 
-    /** 동아리 SNS */
-    @Column
-    private String sns;
-
-    /** 동아리의 관심사 */
-    @Column(nullable = false)
-    private String interest;
-
-    /** 동아리 모집 여부 */
-    @Column(nullable = false)
-    private Boolean inRecruit;
-
-    /** 동아리 모집 기한 */
-    @Column(nullable = false)
-    private String recruitDate;
-
-    /** 동아리 모집 대상 */
-    @Column(nullable = false)
-    private String recruitTarget;
-
-    /** 동아리 방 위치 */
-    @Column(nullable = false)
-    private String room;
-
     /** 동아리 대표자 */
     @Column(nullable = false)
     private String representative;
+
+    /** 동아리 관련 정보 (json) */
+    @Column(nullable = false)
+    private Boolean clubInfo;
 
 }
