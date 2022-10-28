@@ -30,6 +30,6 @@ public class Club {
 
     /** 동아리 관련 정보 (json) */
     @Column(nullable = false)
-    private Boolean clubInfo;
+    private String clubInfo;
 
 }

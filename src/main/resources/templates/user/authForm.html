@@ -1,54 +1,87 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <script src="https://code.jquery.com/jquery-3.6.1.js">
-    $checkEmail.click(function() {
-      alert("asdf")
-      $.ajax({
-        type: "POST",
-        url : "/mailConfirm",
-        data : {
-          "email" : userEmail.val()
-        },
-        success : function(data) {
-          alert("이메일이 발송되었습니다.")
-          console.log("data : " + data)
-          chkEmailConfirm(data, $myMailConfirm, $myMailConfirmTxt);
-        },
-        error : function() {
-          alert("Error!")
-        }
-      })
-    })
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+  <script>
+    var ifEmailChecked = false;
+    $(document).ready(function() {
+      $('#checkEmail').click(function() {
+        alert($('#userEmail').val() + " clicked");
+        $.ajax({
+          type: "POST",
+          url : "/mailConfirm",
+          contentType: 'application/json',
+          data : JSON.stringify ({
+            "userEmail" : $('#userEmail').val()
+          }),
+          success : function() {
+            alert("이메일이 발송되었습니다.");
+          },
+          error : function() {
+            alert("Error!");
+          }
+        });
+      });
 
-    function chkEmailConfirm(data, $myMailConfirm, $myMailConfirmTxt) {
-      $myMailConfirm.on("keyup", function() {
-        if (data != $myMailConfirm.val()) {
-          mailConfirmChk = false;
-          $myMailConfirmTxt.html("<span id = 'mailConfirmChk'>인증번호가 잘못되었습니다.</span>")
-          $("mailConfirmChk").css({
-            "color" : "#FA3E3E",
-            "font-weight" : "bold",
-            "font-size" : "10px"
-          })
-        } else {
-          mailConfirmChk = true;
-          $myMailConfirmTxt.html("<span id = 'mailConfirmChk'>인증 확인</span>")
-          $("mailConfirmChk").css({
-            "color" : "#0D6EFD",
-            "font-weight" : "bold",
-            "font-size" : "10px"
-          })
+      $('#checkCode').click(function() {
+        $.ajax({
+          type: "POST",
+          url : "/mailConfirmChk",
+          contentType: 'application/json',
+          data : JSON.stringify ({
+            "code" : $('#code').val(),
+          }),
+          success : function(data) {
+            if (data) {
+              ifEmailChecked = true;
+              alert("Check successed");
+            }
+            else {
+              alert("Check failed");
+            }
+          },
+          error : function() {
+            alert("Error!");
+          }
+          });
+      });
+
+      
+      $('#submit').click(function() {
+        if (ifEmailChecked) {
+          $.ajax({
+          type: "POST",
+          url : "/auth",
+          contentType: 'application/json',
+          data : JSON.stringify ({
+            "userId" : $('#userId').val(),
+            "userPw" : $('#userPw').val(),
+            "userNickname" : $('#userNickname').val(),
+            "userPhone" : $('#userPhone').val(),
+            "userEmail" : $('#userEmail').val()
+          }),
+          success : function() {
+            alert("가입되었습니다.");
+          },
+          error : function() {
+            alert("Error!");
+          }
+          });
+        } 
+        else {
+          alert("이메일이 인증되지 않았습니다.");
         }
-      })
-    }
+      });
+      
+    });
+
   </script>
+  
 </head>
 <body>
-<div class="container">
-  <form action="/auth" method="post">
+  <div class="container">
     <div class="form-group">
-      <label for="userId">id</label>
+      <label for="userId" id="asdf">id</label>
       <input type="text" id="userId" name="userId" placeholder="ID를 입력하세요"> <br>
       <label for="userPw">pw</label>
       <input type="text" id="userPw" name="userPw" placeholder="Pw를 입력하세요"> <br>
@@ -59,15 +92,13 @@
     </div>
     <div>
       <label for="userEmail">이메일</label>
-      <input type="text" id="userEmail" name="userEmail" placeholder="이메일을 입력하세요"> <br>
-    </div>
-    <button type="button", id="checkEmail">인증번호</button>
-    <div>
+      <input type="text" id="userEmail" name="userEmail" placeholder="이메일을 입력하세요">
+      <button type="button" id="checkEmail">인증번호 보내기</button> <br>
       <label for="myMailConfirm" id="myMailConfirmTxt">인증번호를 입력해주세요</label>
-      <input type="text" class="form-control" id="myMailConfirm">
+      <input type="text" id="code" name="code" placeholder="인증번호">
+      <button type="button" id="checkCode">이메일 인증하기</button> <br>
     </div>
-    <button type="submit">등록</button>
-  </form>
-</div> <!-- /container -->
+    <button type="button" id="submit">등록</button>
+  </div> <!-- /container -->
 </body>
 </html>

@@ -56,6 +56,14 @@ dependencies {
 	// email auth
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+	// jquery
+	implementation group: 'org.webjars', name: 'jquery', version: '3.6.1'
+	implementation group: 'org.webjars', name: 'bootstrap', version: '4.6.0'
+
+	// js
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	implementation 'javax.servlet:jstl'
+
 }
 
 tasks.named('test') {

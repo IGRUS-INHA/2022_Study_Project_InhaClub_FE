@@ -1,28 +1,34 @@
 package Team7.InDaClub.Service;
 
+import Team7.InDaClub.Config.EmailConfig;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Random;
 
 @Service
+@RequiredArgsConstructor
 public class EmailAuthService {
     @Autowired
     JavaMailSender emailSender;
 
+    private final SpringTemplateEngine templateEngine;
     public static final String ePw = createKey();
 
-    private MimeMessage createMessage(String to)throws Exception{
+    private MimeMessage createMessage(String to) throws Exception{
         System.out.println("보내는 대상 : "+ to);
         System.out.println("인증 번호 : "+ePw);
-        MimeMessage  message = emailSender.createMimeMessage();
+        MimeMessage message = emailSender.createMimeMessage();
 
-        message.addRecipients(MimeMessage.RecipientType.TO, to);//보내는 대상
-        message.setSubject("회원가입 이메일 인증");//제목
+        message.addRecipients(MimeMessage.RecipientType.TO, to); //보내는 대상
+        message.setFrom("vkwjs336@naver.com"); // 서버 메일 id
+        message.setSubject("회원가입 이메일 인증"); // 제목
 
         String msg="";
         msg+= "<div style='margin:100px;'>";
@@ -39,7 +45,6 @@ public class EmailAuthService {
         msg+= ePw+"</strong><div><br/> ";
         msg+= "</div>";
         message.setText(msg, "utf-8", "html");//내용
-        message.setFrom(new InternetAddress("properties email 쓰세용!","Babble"));//보내는 사람
 
         return message;
     }

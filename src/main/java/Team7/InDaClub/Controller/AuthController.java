@@ -1,5 +1,6 @@
 package Team7.InDaClub.Controller;
 
+import Team7.InDaClub.Domain.Dto.EmailRequestDto;
 import Team7.InDaClub.Domain.Dto.JoinDto;
 import Team7.InDaClub.Domain.Dto.LoginDto;
 import Team7.InDaClub.Domain.Dto.TokenResponse;
@@ -19,6 +20,15 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
     private final EmailAuthService emailAuthService;
+    private String emailAuthCode = "a";
+
+    public String getEmailAuthCode() {
+        return emailAuthCode;
+    }
+
+    public void setEmailAuthCode(String emailAuthCode) {
+        this.emailAuthCode = emailAuthCode;
+    }
 
     @GetMapping(value = "/user/auth")
     public String createAuthForm() {
@@ -32,7 +42,7 @@ public class AuthController {
 
     /** 회원가입 */
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
-    public String join(JoinDto joinDto) throws Exception {
+    public String join(@RequestBody JoinDto joinDto) throws Exception {
         User user = User.builder()
                 .userId(joinDto.getUserId())
                 .userPw(joinDto.getUserPw())
@@ -47,7 +57,7 @@ public class AuthController {
             throw new Exception("회원 저장에 실패했습니다.");
         } else {
             log.info("User(" + user.getUserId() +") has be registered.");// 로그를 찍을 자리
-            //return ResponseEntity.status(HttpStatus.OK).body(responseUser); 함수의 return이 ResponseEntity<User> 일때 썼던 return
+            //return ResponseEntity.status(HttpStatus.OK).body(responseUser); 함수의 return 이 ResponseEntity<User> 일때 썼던 return
             return "redirect:/";
         }
     }
@@ -60,11 +70,24 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
+    /** 인증 이메일 보내기 */
     @RequestMapping(value = "/mailConfirm", method = RequestMethod.POST)
-    public String emailConfirm(@RequestParam("email") String email) throws Exception {
-        String code = emailAuthService.sendSimpleMessage(email);
-        log.info("email chk : " + email);
-        return code;
+    public String emailConfirm(@RequestBody EmailRequestDto emailRequestDto) throws Exception {
+        String code = emailAuthService.sendSimpleMessage(emailRequestDto.getUserEmail());
+        setEmailAuthCode(code);
+        log.info("email chk : " + emailRequestDto.getUserEmail());
+        return "redirect:/";
     }
 
+    @RequestMapping(value = "mailConfirmChk", method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean checkEmailConfirm(@RequestBody EmailRequestDto emailRequestDto) throws Exception {
+      if (getEmailAuthCode().equals(emailRequestDto.getCode())) {
+          log.info(emailAuthCode + ", " + emailRequestDto.getCode() + "check success");
+          return true;
+      } else {
+          log.info(emailAuthCode + ", " + emailRequestDto.getCode() + "check failed");
+          return false;
+      }
+    }
 }

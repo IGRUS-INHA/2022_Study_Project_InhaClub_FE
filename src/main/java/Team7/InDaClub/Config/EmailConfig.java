@@ -1,5 +1,6 @@
 package Team7.InDaClub.Config;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,15 +13,24 @@ import java.util.Properties;
 /** email.properties 의 설정값을 config 와 매칭시킴 */
 @Configuration
 @PropertySource("classpath:email.properties")
+@Getter
 public class EmailConfig {
 
-    /** smtp port */
-    @Value("${mail.smtp.port}")
-    private int port;
+    /** 관리 email 계정의 id */
+    @Value("${mail.id}")
+    private String id;
 
-    /** smtp socket port */
-    @Value("${mail.smtp.socketFactory.port}")
-    private int socketPort;
+    /** 관리 email 계정의 password */
+    @Value("${mail.password}")
+    private String password;
+
+    /** 관리 email 계정 host */
+    @Value("${mail.host}")
+    private String host;
+
+    /** smtp port */
+    @Value("${mail.port}")
+    private int port;
 
     /** smtp auth 여부 */
     @Value("${mail.smtp.auth}")
@@ -34,23 +44,27 @@ public class EmailConfig {
     @Value("${mail.smtp.starttls.required}")
     private boolean startTLSRequired;
 
-    /** smtp fallback */
-    @Value("${mail.smtp.socketFactory.fallback}")
-    private boolean fallback;
 
-    /** 관리 email 계정의 id */
-    @Value("${AdminMail.id}")
-    private String id;
+    @Value("${mail.smtp.ssl.trust}")
+    private String trustServer;
 
-    /** 관리 email 계정의 password */
-    @Value("${AdminMail.password}")
-    private String password;
+    @Value("${mail.smtp.ssl.enable}")
+    private boolean sslEnable;
+
+    @Value("${mail.smtp.auth.connectiontimeout}")
+    private int connectionTimeout;
+
+    @Value("${mail.smtp.auth.timeout}")
+    private int timeout;
+
+    @Value("${mail.smtp.auth.writetimeout}")
+    public int writeTimeout;
 
     /** Spring email auth service 의 설정 */
     @Bean
     public JavaMailSender javaMailService() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        javaMailSender.setHost("smtp.gmail.com");
+        javaMailSender.setHost(host);
         javaMailSender.setUsername(id);
         javaMailSender.setPassword(password);
         javaMailSender.setPort(port);
@@ -63,12 +77,14 @@ public class EmailConfig {
     private Properties getMailProperties()
     {
         Properties pt = new Properties();
-        pt.put("mail.smtp.socketFactory.port", socketPort);
         pt.put("mail.smtp.auth", auth);
+        pt.put("mail.smtp.auth.connectiontimeout", connectionTimeout);
+        pt.put("mail.smtp.auth.timeout", timeout);
+        pt.put("mail.smtp.auth.writetimeout", writeTimeout);
         pt.put("mail.smtp.starttls.enable", startTLS);
         pt.put("mail.smtp.starttls.required", startTLSRequired);
-        pt.put("mail.smtp.socketFactory.fallback",fallback);
-        pt.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        pt.put("mail.smtp.ssl.trust", trustServer);
+        pt.put("mail.smtp.ssl.enable", sslEnable);
         return pt;
     }
 }
