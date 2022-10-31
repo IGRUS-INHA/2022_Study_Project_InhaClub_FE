@@ -12,15 +12,21 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Random;
 
+/** 이메일 인증 관련 서비스 */
 @Service
 @RequiredArgsConstructor
 public class EmailAuthService {
+
+    /** email sender */
     @Autowired
     JavaMailSender emailSender;
 
+    /** 이메일 양식 */
     private final SpringTemplateEngine templateEngine;
+    /** 이메일 인증번호 */
     public static final String ePw = createKey();
 
+    /** 인증용 이메일 생성 */
     private MimeMessage createMessage(String to) throws Exception{
         System.out.println("보내는 대상 : "+ to);
         System.out.println("인증 번호 : "+ePw);
@@ -49,6 +55,7 @@ public class EmailAuthService {
         return message;
     }
 
+    /** 이메일 인증키 생성 */
     public static String createKey() {
         StringBuffer key = new StringBuffer();
         Random r = new Random();
@@ -73,15 +80,16 @@ public class EmailAuthService {
         return key.toString();
     }
 
+    /** 이메일 전송 */
     public String sendSimpleMessage(String to) throws Exception {
         MimeMessage message = createMessage(to);
 
         try {
-            emailSender.send(message);
+            emailSender.send(message); // emailSender 를 통해 이메일 보낸다.
         } catch (MailException e) {
             e.printStackTrace();
             throw new IllegalArgumentException();
         }
-        return ePw;
+        return ePw; // 인증을 위해 인증키를 남긴다.
     }
 }

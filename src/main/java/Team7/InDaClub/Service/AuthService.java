@@ -33,7 +33,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
-    /** 회원가입 함수 */
+    /** 회원가입  */
     @Transactional
     public User join(User _user) {
         Optional<User> duplicatedUser = userRepository.findByUserId(_user.getUserId()); // 중복유저를 찾아 duplicatedUser 에 넣는다. 중복이 없으면 Optional 이므로 값이 없을 것이다.

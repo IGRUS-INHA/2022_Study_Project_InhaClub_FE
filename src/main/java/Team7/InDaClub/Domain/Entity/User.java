@@ -93,4 +93,9 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public void update(String _userNickname, String _userPhone) {
+        this.userNickname = _userNickname;
+        this.userPhone = _userPhone;
+    }
 }

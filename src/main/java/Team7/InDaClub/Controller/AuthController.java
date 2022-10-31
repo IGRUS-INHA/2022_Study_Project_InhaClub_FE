@@ -57,8 +57,8 @@ public class AuthController {
             throw new Exception("회원 저장에 실패했습니다.");
         } else {
             log.info("User(" + user.getUserId() +") has be registered.");// 로그를 찍을 자리
-            //return ResponseEntity.status(HttpStatus.OK).body(responseUser); 함수의 return 이 ResponseEntity<User> 일때 썼던 return
-            return "redirect:/";
+            //return ResponseEntity.status(HttpStatus.OK).body(responseUser); 함수의 return 이 ResponseEntity<User> 일때 썼던 것
+            return "redirect:/main";
         }
     }
 
@@ -79,6 +79,7 @@ public class AuthController {
         return "redirect:/";
     }
 
+    /** 이메일 인증 */
     @RequestMapping(value = "mailConfirmChk", method = RequestMethod.POST)
     @ResponseBody
     public Boolean checkEmailConfirm(@RequestBody EmailRequestDto emailRequestDto) throws Exception {
