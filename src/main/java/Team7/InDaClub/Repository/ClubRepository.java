@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface ClubRepository extends JpaRepository<Club, Long> {
     Optional<Club> findByName(String _name);
     Optional<Club> findByRepresentative(String _name);
+    Optional<Club> findById(Long id);
 }

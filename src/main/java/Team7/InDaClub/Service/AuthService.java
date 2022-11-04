@@ -1,11 +1,9 @@
 package Team7.InDaClub.Service;
 
 import Team7.InDaClub.Domain.Dto.LoginDto;
-import Team7.InDaClub.Domain.Dto.TokenResponse;
+import Team7.InDaClub.Domain.Dto.TokenResponseDto;
 import Team7.InDaClub.Domain.Entity.Auth;
 import Team7.InDaClub.Domain.Entity.User;
-import Team7.InDaClub.Exception.ErrorCode;
-import Team7.InDaClub.Exception.UserIDDuplicateException;
 import Team7.InDaClub.Repository.AuthRepository;
 import Team7.InDaClub.Repository.UserRepository;
 import Team7.InDaClub.Security.EncryptPw;
@@ -36,29 +34,56 @@ public class AuthService {
     /** 회원가입  */
     @Transactional
     public User join(User _user) {
-        Optional<User> duplicatedUser = userRepository.findByUserId(_user.getUserId()); // 중복유저를 찾아 duplicatedUser 에 넣는다. 중복이 없으면 Optional 이므로 값이 없을 것이다.
-        if (duplicatedUser.isPresent()) throw new UserIDDuplicateException("User ID is Duplicated", ErrorCode.USERID_DUPLICATION); // duplicatedUser 에 값이 있으면 예외를 처리한다.
-        else { // duplicatedUser 에 값이 없으면 == 중복유저가 없으면 회원가입을 수행한다.
-            String password = _user.getPassword();
-            String salt = encryptPw.genSalt(); // EncryptPw 에서 salt 값을 만들어온다.
-            _user.setSalt(salt); // 매개변수로 받아온 user 에 salt 값을 지정해준다.
-            _user.setUserPw(encryptPw.encodePassword(salt, password)); // user 의 userPw 에는 == DB에 저장될 값에는 salt 로 pw 를 encode 시켜 저장한다.
-            _user.setRoles(Collections.singletonList("ROLE_USER")); // user 의 권한 정의
-        }
+        String password = _user.getPassword();
+        String salt = encryptPw.genSalt(); // EncryptPw 에서 salt 값을 만들어온다.
+        _user.setSalt(salt); // 매개변수로 받아온 user 에 salt 값을 지정해준다.
+        _user.setUserPw(encryptPw.encodePassword(salt, password)); // user 의 userPw 에는 == DB에 저장될 값에는 salt 로 pw 를 encode 시켜 저장한다.
+        _user.setRoles(Collections.singletonList("ROLE_USER")); // user 의 권한 정의
 
         log.info("ID: "+ _user.getUserId() + " is been saved.");
         return userRepository.save(_user); // DB에 User를 저장한다.
     }
 
+    /** Id 중복 검사 함수
+     * 중복되면 true, 아니면 false
+     * */
+    @Transactional
+    public Boolean chkDuplicatedId(String _userId) {
+        Optional<User> duplicatedUser = userRepository.findByUserId(_userId);
+        return duplicatedUser.isPresent();
+    }
+
+    /** 이메일 중복 검사 함수
+     * 중복되면 true, 아니면 false
+     * */
+    @Transactional
+    public Boolean chkDuplicatedEmail(String _userEmail) {
+        Optional<User> duplicatedUser = userRepository.findByUserEmail(_userEmail);
+        return duplicatedUser.isPresent();
+    }
+
+    /** 이름 중복 검사 함수
+     * 중복되면 true, 아니면 false
+     * */
+    @Transactional
+    public Boolean chkDuplicatedName(String _userNickname) {
+        Optional<User> duplicatedUser = userRepository.findByUserNickname(_userNickname);
+        return duplicatedUser.isPresent();
+    }
+
     /** 서버와 통신해 로그인을 하는 함수 */
     @Transactional
-    public TokenResponse doLogin(LoginDto _request) throws Exception {
+    public TokenResponseDto doLogin(LoginDto _request) throws Exception {
+        System.out.println("AuthService - doLogin called.");
+        if (userRepository.findByUserId(_request.getUserId()).orElse(null) == null) {
+            return null;
+        }
         User user = userRepository.findByUserId(_request.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다.")); // _request 에서 받아온 user ID 로 중복 검사를 해 중복이면 예외처리를 해준다.
-
+                .orElseThrow(() -> new IllegalArgumentException("User not found.")); // _request 에서 받아온 user ID 로 중복 검사를 해 중복이면 예외처리를 해준다.
+        System.out.println("pass findByUserId");
         if (!passwordEncoder.matches(_request.getUserPw(), user.getPassword())) { // 만약 passwordEncoder 에서 _request 에서 받아온 pw와 DB 에서 받아온 pw를 대조해 값이 다르면,
             log.info(_request.getUserId() + "'s password is not matched.");// 로그를 찍을 자리
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다."); // pw가 일치하지 않는다고 하고 예외처리를 한다.
+            throw new IllegalArgumentException("Password is not matched."); // pw가 일치하지 않는다고 하고 예외처리를 한다.
         }
 
         // jwtProvider 에서 access token 과 refresh token 을 만든다.
@@ -81,7 +106,7 @@ public class AuthService {
         }
 
         // 위에서의 결과로 나온 access token 과 refresh token 을 반환한다.
-        TokenResponse token = new TokenResponse();
+        TokenResponseDto token = new TokenResponseDto();
         token.setACCESS_TOKEN(accessToken);
         token.setREFRESH_TOKEN(refreshToken);
         return token;
@@ -93,7 +118,7 @@ public class AuthService {
      * 이 함수에서는 access token 의 유효 여부에 관계 없이 refresh token 이 유효할 경우 재발급
      * */
     @Transactional
-    public TokenResponse issuedAccessToken(HttpServletRequest _request) {
+    public TokenResponseDto issuedAccessToken(HttpServletRequest _request) {
         // _request 에서 받아온 access token 과 refresh token 을 저장해둔다.
         String accessToken = jwtProvider.resolveAccessToken(_request);
         String refreshToken = jwtProvider.resolveRefreshToken(_request);
@@ -116,7 +141,7 @@ public class AuthService {
         }
 
         // 위에서의 결과로 나온 access token 과 refresh token 을 반환한다.
-        TokenResponse token = new TokenResponse();
+        TokenResponseDto token = new TokenResponseDto();
         token.setACCESS_TOKEN(accessToken);
         token.setREFRESH_TOKEN(refreshToken);
         return token;
@@ -132,13 +157,13 @@ public class AuthService {
             User user = userRepository.findByUserId(userId) // user 객체를 선언해 userID 에 맞는 user 를 찾아온다.
                     .orElseThrow(() -> { // 없으면?
                         log.info(userId + " is not found.");// 로그를 찍을 자리
-                        return new UsernameNotFoundException("존재하지 않는 사용자입니다."); // 예외 처리
+                        return new UsernameNotFoundException("UsernameNotFoundException - User not found."); // 예외 처리
                     });
             log.info(userId + "is be searched - return " + user.getUserId());// 로그를 찍을 자리
             return user; // 찾아온 유저를 반환해준다.
         } else { // access token 이 만료되었으면?
             log.info("Access token has expired.");// 로그를 찍을 자리
-            throw new Exception("토큰이 만료되었습니다."); // 예외 처리
+            throw new Exception("Access token has expired."); // 예외 처리
         }
 
     }

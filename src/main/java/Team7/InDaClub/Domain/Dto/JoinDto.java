@@ -34,14 +34,12 @@ public class JoinDto {
 
     /** 객체의 데이터를 User 형태로 만드는 함수 */
     public User toEntity() {
-        User build = User.builder()
+        return User.builder()
                 .userId(userId)
                 .userPw(userPw)
                 .userNickname(userNickname)
                 .userEmail(userEmail)
                 .userPhone(userPhone)
                 .build();
-
-        return build;
     }
 }

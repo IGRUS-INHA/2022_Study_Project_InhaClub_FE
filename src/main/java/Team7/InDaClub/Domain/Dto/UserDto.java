@@ -31,7 +31,7 @@ public class UserDto {
 
     /** UserDto 객체를 User 객체로 변환하는 함수 */
     public User toEntity() {
-        User build = User.builder()
+        return User.builder()
                 .id(id)
                 .userId(userId)
                 .userPw(userPw)
@@ -40,7 +40,5 @@ public class UserDto {
                 .userEmail(userEmail)
                 .userPhone(userPhone)
                 .build();
-
-        return build;
     }
 }

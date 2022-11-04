@@ -4,18 +4,46 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
   <script>
     var ifEmailChecked = false;
+    var ifIdChecked = true;
     $(document).ready(function() {
-      $('#checkEmail').click(function() {
-        alert($('#userEmail').val() + " clicked");
+      $('#checkId').click(function() {
         $.ajax({
           type: "POST",
-          url : "/mailConfirm",
+          url : "/auth/checkDuplicatedId",
+          contentType: 'application/json',
+          data : JSON.stringify ({
+            "userId" : $('#userId').val(),
+          }),
+          success : function(data) {
+            if (data) {
+              alert("Check failed");
+            }
+            else {
+              ifIdChecked = true;
+              alert("Check successed");
+            }
+          },
+          error : function() {
+            alert("Error!");
+          }
+          });
+      });
+
+      $('#checkEmail').click(function() {
+        $.ajax({
+          type: "POST",
+          url : "/auth/mailConfirm",
           contentType: 'application/json',
           data : JSON.stringify ({
             "userEmail" : $('#userEmail').val()
           }),
-          success : function() {
-            alert("이메일이 발송되었습니다.");
+          success : function(data) {
+            if (data) {
+              alert("이메일이 발송되었습니다.");
+            }
+            else {
+              alert("이메일이 중복됩니다.");
+            }
           },
           error : function() {
             alert("Error!");
@@ -26,7 +54,7 @@
       $('#checkCode').click(function() {
         $.ajax({
           type: "POST",
-          url : "/mailConfirmChk",
+          url : "/auth/mailConfirmChk",
           contentType: 'application/json',
           data : JSON.stringify ({
             "code" : $('#code').val(),
@@ -48,7 +76,7 @@
 
       
       $('#submit').click(function() {
-        if (ifEmailChecked) {
+        if (ifEmailChecked && ifIdChecked) {
           $.ajax({
           type: "POST",
           url : "/auth",
@@ -82,7 +110,9 @@
   <div class="container">
     <div class="form-group">
       <label for="userId" id="asdf">id</label>
-      <input type="text" id="userId" name="userId" placeholder="ID를 입력하세요"> <br>
+      <input type="text" id="userId" name="userId" placeholder="ID를 입력하세요"> 
+      <button type="button" id="checkId">중복검사</button>
+      <br>
       <label for="userPw">pw</label>
       <input type="text" id="userPw" name="userPw" placeholder="Pw를 입력하세요"> <br>
       <label for="userNickname">별명</label>

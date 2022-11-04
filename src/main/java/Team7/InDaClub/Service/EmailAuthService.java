@@ -88,7 +88,7 @@ public class EmailAuthService {
             emailSender.send(message); // emailSender 를 통해 이메일 보낸다.
         } catch (MailException e) {
             e.printStackTrace();
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("IllegalArgumentException - Cannot send the mail.");
         }
         return ePw; // 인증을 위해 인증키를 남긴다.
     }

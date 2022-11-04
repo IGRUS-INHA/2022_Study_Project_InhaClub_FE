@@ -1,6 +1,7 @@
 package Team7.InDaClub.Domain.Entity;
 
 import lombok.*;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,12 +10,13 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@ToString
 @Getter
 @Setter
 @Builder
@@ -39,12 +41,12 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String salt;
 
-    /** 유저의 로그인 닉네임 */
-    @Column(unique = true, nullable = false, length = 100)
+    /** 유저의 닉네임 */
+    @Column(nullable = false, unique = true, length = 100)
     private String userNickname;
 
     /** 유저의 이메일 */
-    @Column(unique = true, nullable = false, length = 200)
+    @Column(nullable = false, unique = true, length = 200)
     private String userEmail;
 
     /** 유저의 전화번호 */
@@ -97,5 +99,18 @@ public class User implements UserDetails {
     public void update(String _userNickname, String _userPhone) {
         this.userNickname = _userNickname;
         this.userPhone = _userPhone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return id != null && Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
