@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>login</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#login').click(function() {        
+                alert(JSON.stringify({
+                    "userId" : $('#userId').val(),
+                    "userPw" : $('#userPw').val()
+                }));
+                $.ajax({
+                    type : "POST",
+                    url : "/doLogin",
+                    contentType: 'application/json',
+                    data : JSON.stringify ({
+                        "userId" : $('#userId').val(),
+                        "userPw" : $('#userPw').val()
+                    }),
+                    success : function() {
+                        alert("Success!");
+                    },
+                    error : function() {
+                        alert("Error!");
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <label for="userId">id</label>
+            <input type="text" id="userId" name="userId" placeholder="ID를 입력하세요"> <br>
+            <label for="userPw">pw</label>
+            <input type="text" id="userPw" name="userPw" placeholder="Pw를 입력하세요"> <br>
+        </div>
+        <button type="submit" id="login">등록</button>
+    </div> <!-- /container -->
+</body>
+</html>
