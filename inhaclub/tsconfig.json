@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+      "jsx": "react",
+      "strict": true,
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "lib": ["dom","es6"],
+      "target": "ES6",
+      "outDir": "./dist",
+      "esModuleInterop": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["src/**/*"]
+}
