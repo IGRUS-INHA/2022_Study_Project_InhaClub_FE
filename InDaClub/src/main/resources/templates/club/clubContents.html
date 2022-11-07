@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">]
+<head>
+    <meta charset="UTF-8">
+    <title>Club detail</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#submit').click(function() {
+                $.ajax({
+                type: "POST",
+                url : "/club/",
+                contentType: 'application/json',
+                data : JSON.stringify ({
+                "clubName" : $('#name').val(),
+                "representative" : $('#representative').val(),
+                "inRecruit" : i,
+                "interest" : $('#interest').val(),
+                "room" : $('#room').val(),
+                "recruitTarget" : $('#recruitTarget').val(),
+                "recruitStart" : $('#recruitStart').val(),
+                "recruitEnd" : $('#recruitEnd').val(),
+                "applicationConditions" : $('#applicationConditions').val()
+                }),
+                success : function() {
+                alert("동아리가 등록되었습니다.");
+                },
+                error : function() {
+                alert("Error!");
+                }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <table>
+            <thead>
+            <tr>
+                <th>test</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${posts.content}"></td>
+            </tr>
+            <tr th:each="comments : ${comments}">
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <input type="text" id="comments">
+    <button type="button" id="submit">등록</button>
+</body>
+</html>
