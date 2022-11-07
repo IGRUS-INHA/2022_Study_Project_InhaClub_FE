@@ -12,8 +12,11 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ClubDto {
 
+    /** 클럷의 id */
+    private Long id;
+
     /** 동아리의 이름 */
-    private String name;
+    private String clubName;
     /** 대표자 */
     private String representative;
     /** 모집 여부 */
@@ -34,8 +37,9 @@ public class ClubDto {
     private String applicationConditions;
 
     public Club toEntity() {
-        Club club = Club.builder()
-                .name(name)
+
+        return Club.builder()
+                .clubName(clubName)
                 .representative(representative)
                 .inRecruit(inRecruit)
                 .interest(interest)
@@ -45,7 +49,5 @@ public class ClubDto {
                 .recruitEnd(recruitEnd)
                 .applicationConditions(applicationConditions)
                 .build();
-
-        return club;
     }
 }

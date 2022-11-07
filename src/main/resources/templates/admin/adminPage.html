@@ -9,7 +9,7 @@
                 $('#withdraw').click(function() {
                     $.ajax({
                         type : "POST",
-                        url : "/userWithdraw",
+                        url : "/user/userWithdraw",
                         contentType: 'application/json',
                         data : JSON.stringify ({
                             "userId" : $('#userIdDelete').val()
@@ -26,7 +26,7 @@
                 $('#update').click(function() {
                     $.ajax({
                         type : "POST",
-                        url : "/userUpdate",
+                        url : "/user/userUpdate",
                         contentType: 'application/json',
                         data : JSON.stringify ({
                             "userId" : $('#userIdUpdate').val(),
@@ -35,6 +35,23 @@
                         }),
                         success : function() {
                             alert("회원 수정이 완료되었습니다.");
+                        },
+                        error : function() {
+                            alert("Error!");
+                        }
+                    });
+                });
+
+                $('#delete').click(function() {
+                    $.ajax({
+                        type : "POST",
+                        url : "/clubDelete",
+                        contentType: 'application/json',
+                        data : JSON.stringify ({
+                            "clubName" : $('#clubNameDelete').val()
+                        }),
+                        success : function() {
+                            alert("삭제가 완료되었습니다.");
                         },
                         error : function() {
                             alert("Error!");
@@ -50,8 +67,17 @@
             <p>
                 <div>
                     <label for="userIdDelete">id</label>
-                    <input type="text" id="userIdDelete" name="userId" placeholder="ID를 입력하세요">
+                    <input type="text" id="userIdDelete" placeholder="ID를 입력하세요">
                     <button type="button" id="withdraw">탈퇴</button>
+                </div>
+            </p>
+
+            <p>동아리 삭제</p>
+            <p>
+                <div>
+                    <label for="clubNameDelete">id</label>
+                    <input type="text" id="clubNameDelete" placeholder="이름을 입력하세요">
+                    <button type="button" id="delete">삭제</button>
                 </div>
             </p>
 

@@ -29,14 +29,14 @@ public class UserController {
     }
 
     /** 회원 탈퇴 */
-    @RequestMapping(value = "/userWithdraw", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/userWithdraw", method = RequestMethod.POST)
     public String userWithdraw(@RequestBody UserDto userDto) {
         userService.userDelete(userDto);
         return "redirect:/admin";
     }
 
     /** 회원 정보 수정 */
-    @RequestMapping(value = "/userUpdate", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/userUpdate", method = RequestMethod.POST)
     public String userUpdate(@RequestBody UserDto userDto) {
         userService.userUpdate(userDto);
         return "redirect:/admin";

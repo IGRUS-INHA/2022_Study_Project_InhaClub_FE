@@ -1,9 +1,9 @@
 package Team7.InDaClub.Domain.Entity;
 
 import lombok.*;
+import org.h2.util.json.JSONObject;
 
 import javax.persistence.*;
-import java.util.List;
 
 /** 동아리 관련 Entity 정의 */
 @NoArgsConstructor
@@ -22,7 +22,7 @@ public class Club {
 
     /** 동아리의 이름 */
     @Column(nullable = false, unique = true, length = 100)
-    private String name;
+    private String clubName;
 
     /** 동아리 대표자 */
     @Column(nullable = false)
@@ -56,19 +56,21 @@ public class Club {
     @Column
     private String applicationConditions;
 
-    /**  */
-    @Column(columnDefinition = "integer default 0")
-    private int view;
+    /** Club -> Post */
+    @OneToOne
+    @JoinColumn(name = "posts_id")
+    private Posts posts;
 
     /** 대표자 이름 */
     private String representativeName;
 
-    /** JSON 형식의 클럽 정보 */
-    private String clubInfo;
+    public void update() {
 
-    /** 동아리 정보를 JSON 화 */
-    public void updateClubInfo() {
-        // 대충 나중에 해야지
+    }
+
+    public void clubInfoToPostContent() {
+        String json = this.clubName;
+        this.posts.setContent(json);
     }
 
     @Override

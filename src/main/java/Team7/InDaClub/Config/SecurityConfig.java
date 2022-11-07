@@ -78,7 +78,7 @@ public class SecurityConfig {
                 .and() // 2회 이상으로 함수가 들어갔을때 상위로 올라오는 함수
                 .authorizeRequests() // 요청에 의한 보안검사
                 .antMatchers("/user/login", "/user/auth").permitAll() // antMatchers 에서 설정된 리소스의 접근을 인증절차 없이 모두 허용으로 함
-                .antMatchers("/admin/**").hasRole("USER")
+                .antMatchers("/admin/**").permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
 
