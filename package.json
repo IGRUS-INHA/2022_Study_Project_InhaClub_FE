@@ -1,0 +1,8 @@
+{
+  "name": "2022_Study_Project_InhaClub_FE",
+  "version": "1.0.0",
+  "main": "index.tsx",
+  "repository": "https://github.com/IGRUS-INHA/2022_Study_Project_InhaClub_FE.git",
+  "author": "Boyoung Yun <index_1234@naver.com>",
+  "license": "MIT"
+}
