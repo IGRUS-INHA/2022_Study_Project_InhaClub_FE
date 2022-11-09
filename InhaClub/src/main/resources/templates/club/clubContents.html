@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Club detail</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var postsId = "${posts.id}";
+            $('#submit').click(function() {
+                $.ajax({
+                type: "POST",
+                url : "/club/saveComment",
+                contentType: 'application/json',
+                data : JSON.stringify ({
+                    "postsId" : postsid,
+                    "content" : $('comments').val()
+                }),
+                success : function() {
+                alert("QnA가 등록되었습니다.");
+                },
+                error : function() {
+                alert("Error!");
+                }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <table>
+            <thead>
+            <tr>
+                <th>club page</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${posts.content}"></td>
+            </tr>
+            <tr th:each="comments : ${comments}">
+                <td th:text="${comments.userName}"></td>
+                <td th:text="${comments.content}"></td>
+                <td th:text="${comments.modifiedDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <input type="text" id="comments">
+    <button type="button" id="submit">등록</button>
+</body>
+</html>

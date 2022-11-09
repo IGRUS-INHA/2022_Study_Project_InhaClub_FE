@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Admin Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#withdraw').click(function() {
+                    $.ajax({
+                        type : "POST",
+                        url : "/api/user/userWithdraw",
+                        contentType: 'application/json',
+                        data : JSON.stringify ({
+                            "userId" : $('#userIdDelete').val()
+                        }),
+                        success : function() {
+                            alert("회원 탈퇴가 완료되었습니다.");
+                        },
+                        error : function() {
+                            alert("Error!");
+                        }
+                    });
+                });
+
+                $('#update').click(function() {
+                    $.ajax({
+                        type : "POST",
+                        url : "/api/user/userUpdate",
+                        contentType: 'application/json',
+                        data : JSON.stringify ({
+                            "userId" : $('#userIdUpdate').val(),
+                            "userNickname" : $('#userNickname').val(),
+                            "userPhone" : $('#userPhone').val()
+                        }),
+                        success : function() {
+                            alert("회원 수정이 완료되었습니다.");
+                        },
+                        error : function() {
+                            alert("Error!");
+                        }
+                    });
+                });
+
+                $('#delete').click(function() {
+                    $.ajax({
+                        type : "POST",
+                        url : "/api/club/clubDelete",
+                        contentType: 'application/json',
+                        data : JSON.stringify ({
+                            "clubName" : $('#clubNameDelete').val()
+                        }),
+                        success : function() {
+                            alert("삭제가 완료되었습니다.");
+                        },
+                        error : function() {
+                            alert("Error!");
+                        }
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div>
+           <p>회원 탈퇴</p>
+            <p>
+                <div>
+                    <label for="userIdDelete">id</label>
+                    <input type="text" id="userIdDelete" placeholder="ID를 입력하세요">
+                    <button type="button" id="withdraw">탈퇴</button>
+                </div>
+            </p>
+
+            <p>동아리 삭제</p>
+            <p>
+                <div>
+                    <label for="clubNameDelete">id</label>
+                    <input type="text" id="clubNameDelete" placeholder="이름을 입력하세요">
+                    <button type="button" id="delete">삭제</button>
+                </div>
+            </p>
+
+            <p>회원 정보 수정</p>
+            <p>
+                <div>
+                    <label for="userIdUpdate" id="asdf">id</label>
+                    <input type="text" id="userIdUpdate" name="userId" placeholder="ID를 입력하세요"> <br>
+                    <label for="userNickname">별명</label>
+                    <input type="text" id="userNickname" name="userNickname" placeholder="이름을 입력하세요"> <br>
+                    <label for="userPhone">전화번호</label>
+                    <input type="text" id="userPhone" name="userPhone" placeholder="전화번호를 입력하세요"> <br>
+                    <button type="button" id="update">수정</button>
+                </div>
+            </p>
+        </div>
+    </body>
+</html>
