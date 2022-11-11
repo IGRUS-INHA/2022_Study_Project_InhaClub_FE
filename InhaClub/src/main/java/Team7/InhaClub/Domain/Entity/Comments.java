@@ -1,5 +1,6 @@
 package Team7.InhaClub.Domain.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -9,7 +10,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 @Builder
 @Entity(name = "comments")
 public class Comments {
@@ -19,7 +19,7 @@ public class Comments {
     private Long id;
 
     /** QnA 내용 */
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     /** QnA 생성일 */
@@ -33,6 +33,7 @@ public class Comments {
     private String modifiedDate;
 
     /** 이 Comment 가 종속된 Post 의 Id */
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "posts_id")
     private Posts posts;

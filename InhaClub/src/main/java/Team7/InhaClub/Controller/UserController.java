@@ -19,14 +19,11 @@ public class UserController {
 
     /** 회원 리스트 페이지로 이동 */
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public ModelAndView list(Model model) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/user/userList");
+    public String list(Model model) {
         List<User> users = userService.findUsers();
         model.addAttribute("user", users);
-        modelAndView.addObject(model);
 
-        return modelAndView;
+        return "/user/userList";
     }
 
 }

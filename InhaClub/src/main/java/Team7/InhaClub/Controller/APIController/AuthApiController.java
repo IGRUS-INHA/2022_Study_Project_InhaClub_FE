@@ -1,9 +1,9 @@
 package Team7.InhaClub.Controller.APIController;
 
-import Team7.InhaClub.Domain.Dto.EmailRequestDto;
+import Team7.InhaClub.Domain.Dto.RequestDto.EmailRequestDto;
 import Team7.InhaClub.Domain.Dto.JoinDto;
 import Team7.InhaClub.Domain.Dto.LoginDto;
-import Team7.InhaClub.Domain.Dto.TokenResponseDto;
+import Team7.InhaClub.Domain.Dto.ResponseDto.TokenResponseDto;
 import Team7.InhaClub.Domain.Entity.User;
 import Team7.InhaClub.Service.AuthService;
 import Team7.InhaClub.Service.EmailAuthService;

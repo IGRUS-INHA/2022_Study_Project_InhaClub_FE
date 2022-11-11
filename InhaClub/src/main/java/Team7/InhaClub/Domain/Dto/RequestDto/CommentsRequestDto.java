@@ -1,4 +1,4 @@
-package Team7.InhaClub.Domain.Dto;
+package Team7.InhaClub.Domain.Dto.RequestDto;
 
 import Team7.InhaClub.Domain.Entity.Comments;
 import Team7.InhaClub.Domain.Entity.Posts;
@@ -16,8 +16,8 @@ public class CommentsRequestDto {
     private String content;
     private String createdDate;
     private String modifiedDate;
-    private Posts posts;
     private String userName;
+    private Posts posts;
     private Long postsId;
 
     public Comments toEntity() {

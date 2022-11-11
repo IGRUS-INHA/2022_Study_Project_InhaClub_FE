@@ -1,7 +1,7 @@
 package Team7.InhaClub.Service;
 
 import Team7.InhaClub.Domain.Dto.LoginDto;
-import Team7.InhaClub.Domain.Dto.TokenResponseDto;
+import Team7.InhaClub.Domain.Dto.ResponseDto.TokenResponseDto;
 import Team7.InhaClub.Domain.Entity.Auth;
 import Team7.InhaClub.Domain.Entity.User;
 import Team7.InhaClub.Repository.AuthRepository;

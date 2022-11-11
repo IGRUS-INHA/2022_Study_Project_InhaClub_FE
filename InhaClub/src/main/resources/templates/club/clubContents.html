@@ -6,24 +6,26 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script>
         $(document).ready(function() {
-            var postsId = "${posts.id}";
             $('#submit').click(function() {
                 $.ajax({
-                type: "POST",
-                url : "/club/saveComment",
-                contentType: 'application/json',
-                data : JSON.stringify ({
-                    "postsId" : postsid,
-                    "content" : $('comments').val()
-                }),
-                success : function() {
-                alert("QnA가 등록되었습니다.");
-                },
-                error : function() {
-                alert("Error!");
-                }
+                    type: "POST",
+                    url : "/api/club/saveComment",
+                    contentType: 'application/json',
+                    data : JSON.stringify ({
+                        "postsId" : [[${id}]],
+                        "content" : $('#qna').val(),
+                        "userName" : $('#username').val()
+                    }),
+                    success : function() {
+                        alert("QnA가 등록되었습니다.");
+                        window.location.reload();                    
+                    },
+                    error : function() {
+                        alert("Error!");
+                    }
                 });
             });
+
         });
     </script>
 </head>
@@ -32,7 +34,7 @@
         <table>
             <thead>
             <tr>
-                <th>club page</th>
+                <td th:text="${club.clubName}"></th>
             </tr>
             </thead>
             <tbody>
@@ -43,11 +45,13 @@
                 <td th:text="${comments.userName}"></td>
                 <td th:text="${comments.content}"></td>
                 <td th:text="${comments.modifiedDate}"></td>
+                <td><button type="button" id="delete">삭제</button></td>
             </tr>
             </tbody>
         </table>
     </div>
-    <input type="text" id="comments">
+    <input type="text" id="username" name="username" placeholder="작성자">
+    <input type="text" id="qna" name="qna" placeholder="asdf">
     <button type="button" id="submit">등록</button>
 </body>
 </html>

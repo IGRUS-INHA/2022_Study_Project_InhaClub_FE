@@ -9,7 +9,7 @@
         else var i = false;
         $.ajax({
         type: "POST",
-        url : "/club/registerNewClub",
+        url : "/api/club/registerNewClub",
         contentType: 'application/json',
         data : JSON.stringify ({
           "clubName" : $('#name').val(),

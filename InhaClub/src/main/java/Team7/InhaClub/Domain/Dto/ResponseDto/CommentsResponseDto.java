@@ -1,4 +1,4 @@
-package Team7.InhaClub.Domain.Dto;
+package Team7.InhaClub.Domain.Dto.ResponseDto;
 
 import Team7.InhaClub.Domain.Entity.Comments;
 import lombok.Getter;

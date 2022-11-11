@@ -50,8 +50,7 @@ public class ClubService {
 
     @Transactional
     public void clubDelete(ClubDto clubDto) {
-        Club tmpClub = clubRepository.findByClubName(clubDto.getClubName()).orElseThrow(() -> new IllegalArgumentException("Club is not found."));
-        clubRepository.delete(tmpClub);
+        clubRepository.delete(clubRepository.findByClubName(clubDto.getClubName()).orElseThrow(() -> new IllegalArgumentException("Club is not found. -> " + clubDto.getClubName())));
     }
 
     /** 모든 동아리 리스트를 넘김 */
@@ -63,5 +62,6 @@ public class ClubService {
     public Optional<Club> findByClubId(Long _id) { return clubRepository.findById(_id);}
 
     /** 동아리 이름으로 동아리를 찾음 */
+    @Transactional
     public Optional<Club> findByClubName(String _name) { return clubRepository.findByClubName(_name); }
 }

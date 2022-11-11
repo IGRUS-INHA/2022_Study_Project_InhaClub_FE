@@ -1,4 +1,4 @@
-package Team7.InhaClub.Domain.Dto;
+package Team7.InhaClub.Domain.Dto.RequestDto;
 
 import lombok.Data;
 

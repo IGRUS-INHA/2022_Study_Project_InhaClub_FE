@@ -1,6 +1,9 @@
 package Team7.InhaClub.Controller;
 
+import Team7.InhaClub.Domain.Dto.ResponseDto.CommentsResponseDto;
+import Team7.InhaClub.Domain.Dto.ResponseDto.PostResponseDto;
 import Team7.InhaClub.Domain.Entity.Club;
+import Team7.InhaClub.Domain.Entity.Comments;
 import Team7.InhaClub.Domain.Entity.Posts;
 import Team7.InhaClub.Service.ClubService;
 import lombok.RequiredArgsConstructor;
@@ -33,10 +36,14 @@ public class ClubController {
     }
 
     @GetMapping(value = "/club/{id}")
-    public String clubPage(@PathVariable("id") Long _id, Model model) {
+    public String clubPage(@PathVariable("id") @ModelAttribute("id") Long _id, Model model) {
         Club club = clubService.findByClubId(_id).orElseThrow(() -> new IllegalArgumentException("not found."));
-        Posts posts = club.getPosts();
-        model.addAttribute("posts", posts);
+        PostResponseDto dto = new PostResponseDto(club.getPosts());
+        List<CommentsResponseDto> comments = dto.getComments();
+
+        model.addAttribute("club", club);
+        model.addAttribute("posts", dto);
+        model.addAttribute("comments", comments);
 
         return "/club/clubContents";
     }

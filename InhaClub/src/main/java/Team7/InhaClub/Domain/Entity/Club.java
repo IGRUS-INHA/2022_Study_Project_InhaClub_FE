@@ -9,7 +9,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 @Builder
 @Entity(name = "club")
 public class Club {
@@ -57,20 +56,16 @@ public class Club {
     private String applicationConditions;
 
     /** Club -> Post */
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "posts_id")
     private Posts posts;
 
-    /** 대표자 이름 */
-    private String representativeName;
+    public void setPosts(Posts _posts) {
+        this.posts = _posts;
+    }
 
     public void update() {
 
-    }
-
-    public void clubInfoToPostContent() {
-        String json = this.clubName;
-        this.posts.setContent(json);
     }
 
     @Override
