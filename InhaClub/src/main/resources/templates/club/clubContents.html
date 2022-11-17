@@ -7,26 +7,71 @@
     <script>
         $(document).ready(function() {
             $('#submit').click(function() {
-                $.ajax({
-                    type: "POST",
-                    url : "/api/club/saveComment",
-                    contentType: 'application/json',
-                    data : JSON.stringify ({
-                        "postsId" : [[${id}]],
-                        "content" : $('#qna').val(),
-                        "userName" : $('#username').val()
-                    }),
-                    success : function() {
-                        alert("QnA가 등록되었습니다.");
-                        window.location.reload();                    
-                    },
-                    error : function() {
-                        alert("Error!");
-                    }
-                });
+                if ($('#qnaPw').val() == "" || $('#qnaPw').val() == null) {
+                    alert("비밀번호를 입력해주세요.");
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url : "/api/club/saveComment",
+                        contentType: 'application/json',
+                        data : JSON.stringify ({
+                            "postsId" : [[${id}]],
+                            "content" : $('#qna').val(),
+                            "username" : $('#username').val(),
+                            "password" : $('#qnaPw').val()
+                        }),
+                        success : function() {
+                            alert("QnA가 등록되었습니다.");
+                            window.location.reload();                    
+                        },
+                        error : function() {
+                            alert("Error!");
+                        }
+                    });
+                }
             });
-
         });
+        
+
+        function commentDelete(_id) {
+            $.ajax({
+                type : "DELETE",
+                url : "/api/club/deleteComment",
+                contentType: 'application/json',
+                data : JSON.stringify ({
+                    "id" : _id,
+                    "password" : $('#password' + _id).val()
+                }),
+                success : function() {
+                    alert("삭제되었습니다.");
+                    window.location.reload();                    
+                },
+                error : function() {
+                    alert("Error!");
+                }
+            });
+        };
+
+        function commentModify(_id) {
+            $.ajax({
+                type : "POST",
+                url : "/api/club/modifyComment" ,
+                contentType: 'application/json',
+                data : JSON.stringify ({
+                    "id" : _id,
+                    "content" : $('#modicomment' + _id).val(),
+                    "password" : $('#password' + _id).val()
+                }),
+                success : function() {
+                    alert("수정되었습니다.");
+                    window.location.reload();                    
+                },
+                error : function() {
+                    alert("Error!");
+                }
+            });
+        };
     </script>
 </head>
 <body>
@@ -42,16 +87,22 @@
                 <td th:text="${posts.content}"></td>
             </tr>
             <tr th:each="comments : ${comments}">
-                <td th:text="${comments.userName}"></td>
+                <td th:text="${comments.username}"></td>
                 <td th:text="${comments.content}"></td>
                 <td th:text="${comments.modifiedDate}"></td>
-                <td><button type="button" id="delete">삭제</button></td>
+                <td>
+                    <input type="text" th:id="'modicomment' + ${comments.id}" name="modcomment" placeholder="수정">
+                    <input type="text" th:id="'password' + ${comments.id}" name="password" placeholder="비밀번호">
+                    <button type="button" th:commentId="${comments.id}" th:onclick="commentModify(this.getAttribute('commentId'))">수정</button>
+                    <button type="button" th:commentId="${comments.id}" th:onclick="commentDelete(this.getAttribute('commentId'))">삭제</button>
+                </td>
             </tr>
             </tbody>
         </table>
     </div>
     <input type="text" id="username" name="username" placeholder="작성자">
     <input type="text" id="qna" name="qna" placeholder="asdf">
+    <input type="text" id="qnaPw" name="qnaPw" placeholder="비밀번호">
     <button type="button" id="submit">등록</button>
 </body>
 </html>

@@ -16,14 +16,8 @@
             </thead>
             <tbody>
             <tr th:each="club : ${club}">
-                <td th:text="${club.name}"></td>
-                <td th:text="${club.sns}"></td>
-                <td th:text="${club.interest}"></td>
-                <td th:text="${club.room}"></td>
-                <td th:text="${club.inRecruit}"></td>
-                <td th:text="${club.recruitDate}"></td>
-                <td th:text="${club.recruitTarget}"></td>
-                <td th:text="${club.representative}"></td>
+                <td th:text="${club.id}"></td>
+                <td th:text="${club.clubName}" th:onclick="|location.href='/club/${club.id}'|"></td>
             </tr>
             </tbody>
         </table>

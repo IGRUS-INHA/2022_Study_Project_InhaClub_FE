@@ -1,11 +1,14 @@
 package Team7.InhaClub.Domain.Dto.RequestDto;
 
+import Team7.InhaClub.Domain.Dto.ResponseDto.CommentsResponseDto;
 import Team7.InhaClub.Domain.Entity.Comments;
 import Team7.InhaClub.Domain.Entity.Posts;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotEmpty;
 
 @Data
 @AllArgsConstructor
@@ -16,8 +19,11 @@ public class CommentsRequestDto {
     private String content;
     private String createdDate;
     private String modifiedDate;
-    private String userName;
+    private String username;
     private Posts posts;
+    @NotEmpty(message = "비밀번호를 입력해주세요.")
+    private String password;
+    private String salt;
     private Long postsId;
 
     public Comments toEntity() {
@@ -27,8 +33,9 @@ public class CommentsRequestDto {
                 .createdDate(createdDate)
                 .modifiedDate(modifiedDate)
                 .posts(posts)
-                .userName(userName)
+                .username(username)
+                .password(password)
+                .salt(salt)
                 .build();
     }
-
 }

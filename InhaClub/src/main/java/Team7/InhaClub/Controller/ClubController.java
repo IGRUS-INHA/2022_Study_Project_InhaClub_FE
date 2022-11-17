@@ -3,8 +3,6 @@ package Team7.InhaClub.Controller;
 import Team7.InhaClub.Domain.Dto.ResponseDto.CommentsResponseDto;
 import Team7.InhaClub.Domain.Dto.ResponseDto.PostResponseDto;
 import Team7.InhaClub.Domain.Entity.Club;
-import Team7.InhaClub.Domain.Entity.Comments;
-import Team7.InhaClub.Domain.Entity.Posts;
 import Team7.InhaClub.Service.ClubService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -8,7 +8,7 @@
             $(document).ready(function() {
                 $('#withdraw').click(function() {
                     $.ajax({
-                        type : "POST",
+                        type : "DELETE",
                         url : "/api/user/userWithdraw",
                         contentType: 'application/json',
                         data : JSON.stringify ({
@@ -44,7 +44,7 @@
 
                 $('#delete').click(function() {
                     $.ajax({
-                        type : "POST",
+                        type : "DELETE",
                         url : "/api/club/clubDelete",
                         contentType: 'application/json',
                         data : JSON.stringify ({

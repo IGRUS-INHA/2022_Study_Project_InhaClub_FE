@@ -67,6 +67,10 @@ dependencies {
 	// json
 	implementation 'com.google.code.gson:gson:2.10'
 
+	// swagger api
+	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
+
 
 }
 

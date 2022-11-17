@@ -1,6 +1,6 @@
 package Team7.InhaClub.Service;
 
-import Team7.InhaClub.Domain.Dto.ClubDto;
+import Team7.InhaClub.Domain.Dto.RequestDto.ClubRequestDto;
 import Team7.InhaClub.Domain.Entity.Club;
 import Team7.InhaClub.Domain.Entity.Posts;
 import Team7.InhaClub.Repository.ClubRepository;
@@ -24,7 +24,6 @@ public class ClubService {
     /** 동아리 등록 */
     @Transactional
     public Club register(Club _club) {
-        validateDuplicateClubName(_club);
         Posts posts = new Posts();
         posts.setContent("asdf");
         postsRepository.save(posts);
@@ -35,22 +34,22 @@ public class ClubService {
 
     /** 동아리 중복 검사 */
     @Transactional
-    private void validateDuplicateClubName(Club _club) {
-        clubRepository.findByClubName(_club.getClubName())
+    public void validateDuplicateClubName(String _name) {
+        clubRepository.findByClubName(_name)
                 .ifPresent(m -> {
                     throw new IllegalStateException("IllegalStateException - Club name is already exist.");
                 });
     }
 
     @Transactional
-    public void clubUpdate(ClubDto clubDto) {
-        Club tmpClub = clubRepository.findByClubName(clubDto.getClubName()).orElseThrow(() -> new IllegalArgumentException("Club is not found."));
+    public void clubUpdate(ClubRequestDto clubRequestDto) {
+        Club tmpClub = clubRepository.findByClubName(clubRequestDto.getClubName()).orElseThrow(() -> new IllegalArgumentException("Club is not found."));
 
     }
 
     @Transactional
-    public void clubDelete(ClubDto clubDto) {
-        clubRepository.delete(clubRepository.findByClubName(clubDto.getClubName()).orElseThrow(() -> new IllegalArgumentException("Club is not found. -> " + clubDto.getClubName())));
+    public void clubDelete(ClubRequestDto clubRequestDto) {
+        clubRepository.delete(clubRepository.findByClubName(clubRequestDto.getClubName()).orElseThrow(() -> new IllegalArgumentException("Club is not found. -> " + clubRequestDto.getClubName())));
     }
 
     /** 모든 동아리 리스트를 넘김 */

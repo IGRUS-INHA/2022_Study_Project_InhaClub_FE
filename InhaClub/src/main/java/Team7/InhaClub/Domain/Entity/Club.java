@@ -55,6 +55,9 @@ public class Club {
     @Column
     private String applicationConditions;
 
+    @Column
+    private String sns;
+
     /** Club -> Post */
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "posts_id")
@@ -62,10 +65,6 @@ public class Club {
 
     public void setPosts(Posts _posts) {
         this.posts = _posts;
-    }
-
-    public void update() {
-
     }
 
     @Override

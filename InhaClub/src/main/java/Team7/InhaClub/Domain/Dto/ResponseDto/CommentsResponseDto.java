@@ -10,7 +10,8 @@ public class CommentsResponseDto {
     private final String createdDate;
     private final String modifiedDate;
     private final Long postId;
-    private final String userName;
+    private final String username;
+    private final String password;
 
     public CommentsResponseDto(Comments comments) {
         this.id = comments.getId();
@@ -18,6 +19,7 @@ public class CommentsResponseDto {
         this.createdDate = comments.getCreatedDate();
         this.modifiedDate = comments.getModifiedDate();
         this.postId = comments.getPosts().getId();
-        this.userName = comments.getUserName();
+        this.username = comments.getUsername();
+        this.password = comments.getPassword();
     }
 }

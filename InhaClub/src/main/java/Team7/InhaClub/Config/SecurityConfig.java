@@ -5,6 +5,7 @@ import Team7.InhaClub.Security.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -79,6 +80,7 @@ public class SecurityConfig {
                 .authorizeRequests() // 요청에 의한 보안검사
                 .antMatchers("/user/login", "/user/auth").permitAll() // antMatchers 에서 설정된 리소스의 접근을 인증절차 없이 모두 허용으로 함
                 .antMatchers("/admin/**").hasRole("USER")
+                .mvcMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
 

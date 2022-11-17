@@ -1,4 +1,4 @@
-package Team7.InhaClub.Domain.Dto;
+package Team7.InhaClub.Domain.Dto.RequestDto;
 
 import Team7.InhaClub.Domain.Entity.Club;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class ClubDto {
+public class ClubRequestDto {
 
     /** 클럷의 id */
     private Long id;
@@ -37,7 +37,6 @@ public class ClubDto {
     private String applicationConditions;
 
     public Club toEntity() {
-
         return Club.builder()
                 .clubName(clubName)
                 .representative(representative)
@@ -48,6 +47,7 @@ public class ClubDto {
                 .recruitStart(recruitStart)
                 .recruitEnd(recruitEnd)
                 .applicationConditions(applicationConditions)
+                .sns(sns)
                 .build();
     }
 }

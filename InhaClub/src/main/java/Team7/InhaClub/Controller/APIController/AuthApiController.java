@@ -27,7 +27,7 @@ public class AuthApiController {
     private String emailAuthCode = "a";
 
     /** 회원가입 */
-    @RequestMapping(value = "/auth", method = RequestMethod.POST)
+    @PostMapping(value = "/auth")
     public ResponseEntity join(@RequestBody JoinDto joinDto, HttpServletResponse response) throws Exception {
         User user = joinDto.toEntity();
 
@@ -43,19 +43,19 @@ public class AuthApiController {
     }
 
     /** id 중복 검사 */
-    @RequestMapping(value = "/auth/checkDuplicatedId", method = RequestMethod.POST)
+    @PostMapping(value = "/auth/checkDuplicatedId")
     public Boolean checkDuplicatedId(@RequestBody JoinDto joinDto) {
         return authService.chkDuplicatedId(joinDto.getUserId());
     }
 
     /** Email 중복 검사 */
-    @RequestMapping(value = "/auth/checkDuplicatedEmail", method = RequestMethod.POST)
+    @PostMapping(value = "/auth/checkDuplicatedEmail")
     public Boolean checkDuplicatedEmail(@RequestBody JoinDto joinDto) {
         return authService.chkDuplicatedId(joinDto.getUserEmail());
     }
 
     /** 인증 이메일 보내기 */
-    @RequestMapping(value = "/auth/mailConfirm", method = RequestMethod.POST)
+    @PostMapping(value = "/auth/mailConfirm")
     public ResponseEntity emailConfirm(@RequestBody EmailRequestDto emailRequestDto, HttpServletResponse response) throws Exception {
         if (authService.chkDuplicatedEmail(emailRequestDto.getUserEmail())) {
             return null;
@@ -71,7 +71,7 @@ public class AuthApiController {
     }
 
     /** 이메일 인증 */
-    @RequestMapping(value = "/auth/mailConfirmChk", method = RequestMethod.POST)
+    @PostMapping(value = "/auth/mailConfirmChk")
     @ResponseBody
     public Boolean checkEmailConfirm(@RequestBody EmailRequestDto emailRequestDto) throws Exception {
         if (getEmailAuthCode().equals(emailRequestDto.getCode())) {
@@ -84,7 +84,7 @@ public class AuthApiController {
     }
 
     /** 로그인 */
-    @RequestMapping(value = "/doLogin", method = RequestMethod.POST)
+    @PostMapping(value = "/doLogin")
     public ResponseEntity login(@RequestBody LoginDto loginDto) throws Exception {
         System.out.println(loginDto.getUserId() + ", " + loginDto.getUserPw());
         TokenResponseDto token = authService.doLogin(loginDto);

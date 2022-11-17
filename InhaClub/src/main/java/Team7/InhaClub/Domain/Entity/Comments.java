@@ -40,6 +40,17 @@ public class Comments {
 
     /** 작성자 */
     @Column(nullable = false)
-    private String userName;
+    private String username;
 
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private String salt;
+
+    public void update(String _content, String _modifiedDate)
+    {
+        this.content = _content;
+        this.modifiedDate = _modifiedDate;
+    }
 }
