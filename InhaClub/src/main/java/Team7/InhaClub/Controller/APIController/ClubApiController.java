@@ -2,11 +2,13 @@ package Team7.InhaClub.Controller.APIController;
 
 import Team7.InhaClub.Domain.Dto.RequestDto.ClubRequestDto;
 import Team7.InhaClub.Domain.Dto.RequestDto.CommentsRequestDto;
+import Team7.InhaClub.Domain.Dto.ResponseDto.ClubResponseDto;
 import Team7.InhaClub.Domain.Entity.Club;
 import Team7.InhaClub.Domain.Entity.Comments;
 import Team7.InhaClub.Service.ClubService;
 import Team7.InhaClub.Service.CommentsService;
 import Team7.InhaClub.Service.PostsService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -23,15 +25,14 @@ import java.net.URI;
 @Slf4j
 public class ClubApiController {
     private final ClubService clubService;
-    private final PostsService postsService;
     private final CommentsService commentsService;
 
     /** 클럽 등록 */
-    @PostMapping(value = "/club/registerNewClub")
-    public ResponseEntity<Club> registerNewClub(@RequestBody ClubRequestDto clubRequestDto) throws Exception {
+    @PostMapping(value = "/club/clubRegister")
+    public ResponseEntity<Club> registerNewClub(@RequestBody ClubRequestDto _dto) throws Exception {
         try {
-            clubService.validateDuplicateClubName(clubRequestDto.getClubName());
-            Club club = clubRequestDto.toEntity();
+            clubService.validateDuplicateClubName(_dto.getClubName());
+            Club club = _dto.toEntity();
 
             Club responseClub = clubService.register(club);
             if (responseClub == null) {
@@ -51,16 +52,32 @@ public class ClubApiController {
 
     /** 클럽 삭제 */
     @DeleteMapping(value = "/club/clubDelete")
-    public ModelAndView clubDelete(@RequestBody ClubRequestDto clubRequestDto) {
-        System.out.println(clubRequestDto.getClubName());
-        clubService.clubDelete(clubRequestDto);
+    public ModelAndView clubDelete(@RequestBody ClubRequestDto _dto) {
+        System.out.println(_dto.getClubName());
+        clubService.clubDelete(_dto);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/admin/adminPage.html");
 
         return modelAndView;
     }
 
-    /** 댓글 저장 */
+    /** 수정 페이지로 동아리 데이터 전송 */
+    @PostMapping(value = "/club/edit/{id}")
+    public ClubResponseDto clubEditApi(@PathVariable("id") @ModelAttribute Long _id) {
+        Club club = clubService.findByClubId(_id).orElseThrow(() -> new IllegalArgumentException("not found."));
+        ClubResponseDto dto = new ClubResponseDto(club);
+
+        return new ClubResponseDto(club);
+    }
+
+    /** 동아리 정보 수정 */
+    @PostMapping(value = "/club/clubEdit")
+    public ResponseEntity<String> clubEdit(@RequestBody ClubRequestDto _dto) {
+        clubService.editClubInfo(_dto);
+        return ResponseEntity.status(HttpStatus.OK).body("success");
+    }
+
+    /** QnA 저장 */
     @PostMapping(value = "/club/saveComment")
     public ResponseEntity<String> commentSave(@RequestBody CommentsRequestDto _dto) throws Exception {
         commentsService.save(_dto);

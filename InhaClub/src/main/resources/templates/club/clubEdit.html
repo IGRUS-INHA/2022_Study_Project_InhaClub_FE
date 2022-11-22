@@ -2,35 +2,59 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+  <title>동아리 편집</title>
   <script>
+    id_ = [[${_id}]]; // url의 id를 js 변수로 등록
+    $.ajax({
+        type: "POST",
+        url : "/api/club/edit/" + id_,
+        contentType: 'application/json',
+        success : function(data) {
+            $("#name").val(data.clubName);
+            $('#representative').val(data.representative);
+            $('#sns').val(data.sns);
+            $('#interest').val(data.interest);
+            $('#room').val(data.room);
+            $('#recruitTarget').val(data.recruitTarget);
+            $('#recruitStart').val(data.recruitStart);
+            $('#recruitEnd').val(data.recruitEnd);
+            $('#applicationConditions').val(data.applicationConditions);
+            $('#description').val(data.description)
+        },
+        false : function() {
+            alert("error!");
+        }
+    });
+
     $(document).ready(function() {
       $('#submit').click(function() {
         if ($('inRecruit') == true) var i = true;
         else var i = false;
         $.ajax({
-          type: "POST",
-          url : "/api/club/clubRegister",
-          contentType: 'application/json',
-          data : JSON.stringify ({
-            "clubName" : $('#name').val(),
-            "representative" : $('#representative').val(),
-            "sns" : $('#sns').val(),
-            "inRecruit" : i,
-            "interest" : $('#interest').val(),
-            "room" : $('#room').val(),
-            "recruitTarget" : $('#recruitTarget').val(),
-            "recruitStart" : $('#recruitStart').val(),
-            "recruitEnd" : $('#recruitEnd').val(),
-            "applicationConditions" : $('#applicationConditions').val(),
-            "description" : $('#description').val()
-          }),
-          success : function() {
-            alert("동아리가 등록되었습니다.");
-          },
-          error : function() {
-            alert("Error!");
-          }
-        });
+            type: "POST",
+            url : "/api/club/clubEdit",
+            contentType: 'application/json',
+            data : JSON.stringify ({
+                "id" : id_,
+                "clubName" : $('#name').val(),
+                "representative" : $('#representative').val(),
+                "sns" : $('#sns').val(),
+                "inRecruit" : i,
+                "interest" : $('#interest').val(),
+                "room" : $('#room').val(),
+                "recruitTarget" : $('#recruitTarget').val(),
+                "recruitStart" : $('#recruitStart').val(),
+                "recruitEnd" : $('#recruitEnd').val(),
+                "applicationConditions" : $('#applicationConditions').val(),
+                "description" : $('#description').val()
+            }),
+            success : function() {
+                alert("동아리가 등록되었습니다.");
+            },
+            error : function() {
+                alert("Error!");
+            }
+            });
       });
     });
   </script>
@@ -39,7 +63,7 @@
   <div class="container">
     <div class="form-group">
       <label for="name">동아리 이름</label>
-      <input type="text" id="name" name="name" placeholder="동아리 이름을 입력하세요"> <br>
+      <input type="text" id="name" name="name"placeholder="동아리 이름을 입력하세요"> <br>
       <label for="sns">SNS</label>
       <input type="text" id="sns" name="sns" placeholder="SNS를 입력하세요"> <br>
       <label for="interest">관심사</label>
@@ -50,7 +74,7 @@
       <input type="text" id="representative" name="representative" placeholder="대표자 이름을 입력하세요"> <br>
       <label for="recruitTarget">동아리 모집 대상</label>
       <input type="text" id="recruitTarget" name="recruitTarget" placeholder="동아리 모집 대상을 입력하세요"> <br>
-      <label for="applicationCondition">동아리 모집 조건</label>
+      <label for="applicationConditions">동아리 모집 조건</label>
       <input type="text" id="applicationConditions" name="applicationConditions" placeholder="동아리 모집 조건을 입력하세요"> <br>
       <label for="recruitStart">동아리 모집 시작일</label>
       <input type="text" id="recruitStart" name="recruitStart" placeholder="동아리 시작일을 입력하세요"> <br>
@@ -58,11 +82,11 @@
       <input type="text" id="recruitEnd" name="recruitEnd" placeholder="동아리 종료일을 입력하세요"> <br>
       <label for="inRecruit">모집중이십니까?</label>
       <label><input type="radio" id="inRecruit" name="inRecruit" value="true" checked>네</label>
-      <label><input type="radio" id="inRecruit" name="inRecruit" value="false">아니오</label>
+      <label><input type="radio" id="inRecruit" name="inRecruit" value="false">아니오</label><br>
       <label for="description">동아리 설명</label>
       <input type="text" id="description" name="description" placeholder="동아리 설명을 입력하세요"> <br>
     </div>
-    <button type="submit" id="submit">등록</button>
+    <button type="submit" id="submit">수정</button>
   </div> <!-- /container -->
 </body>
 </html>

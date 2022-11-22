@@ -1,11 +1,13 @@
 package Team7.InhaClub.Controller;
 
+import Team7.InhaClub.Domain.Dto.ResponseDto.ClubResponseDto;
 import Team7.InhaClub.Domain.Dto.ResponseDto.CommentsResponseDto;
 import Team7.InhaClub.Domain.Dto.ResponseDto.PostResponseDto;
 import Team7.InhaClub.Domain.Entity.Club;
 import Team7.InhaClub.Service.ClubService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.h2.engine.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,14 +38,21 @@ public class ClubController {
     @GetMapping(value = "/club/{id}")
     public String clubPage(@PathVariable("id") @ModelAttribute("id") Long _id, Model model) {
         Club club = clubService.findByClubId(_id).orElseThrow(() -> new IllegalArgumentException("not found."));
+        ClubResponseDto response = new ClubResponseDto(club);
         PostResponseDto dto = new PostResponseDto(club.getPosts());
         List<CommentsResponseDto> comments = dto.getComments();
 
-        model.addAttribute("club", club);
+        model.addAttribute("club", response);
         model.addAttribute("posts", dto);
         model.addAttribute("comments", comments);
 
         return "/club/clubContents";
+    }
+
+    @GetMapping(value = "/club/{id}/edit")
+    public String clubEdit(@PathVariable("id") @ModelAttribute("id") Long _id, Model model) {
+        model.addAttribute("_id", _id);
+        return "/club/clubEdit";
     }
 
 }

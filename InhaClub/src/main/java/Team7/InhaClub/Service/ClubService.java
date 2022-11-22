@@ -1,6 +1,7 @@
 package Team7.InhaClub.Service;
 
 import Team7.InhaClub.Domain.Dto.RequestDto.ClubRequestDto;
+import Team7.InhaClub.Domain.Dto.ResponseDto.ClubResponseDto;
 import Team7.InhaClub.Domain.Entity.Club;
 import Team7.InhaClub.Domain.Entity.Posts;
 import Team7.InhaClub.Repository.ClubRepository;
@@ -32,6 +33,14 @@ public class ClubService {
         return clubRepository.save(_club);
     }
 
+    // in progress
+    /** 동아리 정보 수정 */
+    @Transactional
+    public void editClubInfo(ClubRequestDto _request) {
+        Club club = findByClubId(_request.getId()).orElseThrow(() -> new IllegalArgumentException("Club not found - editClubInfo"));
+        club.update(_request);
+    }
+
     /** 동아리 중복 검사 */
     @Transactional
     public void validateDuplicateClubName(String _name) {
@@ -41,12 +50,7 @@ public class ClubService {
                 });
     }
 
-    @Transactional
-    public void clubUpdate(ClubRequestDto clubRequestDto) {
-        Club tmpClub = clubRepository.findByClubName(clubRequestDto.getClubName()).orElseThrow(() -> new IllegalArgumentException("Club is not found."));
-
-    }
-
+    /** 동아리 삭제 */
     @Transactional
     public void clubDelete(ClubRequestDto clubRequestDto) {
         clubRepository.delete(clubRepository.findByClubName(clubRequestDto.getClubName()).orElseThrow(() -> new IllegalArgumentException("Club is not found. -> " + clubRequestDto.getClubName())));

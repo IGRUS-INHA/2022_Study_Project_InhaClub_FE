@@ -1,5 +1,7 @@
 package Team7.InhaClub.Domain.Entity;
 
+import Team7.InhaClub.Domain.Dto.RequestDto.ClubRequestDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.h2.util.json.JSONObject;
 
@@ -61,7 +63,11 @@ public class Club {
     /** Club -> Post */
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "posts_id")
+    @JsonIgnore
     private Posts posts;
+
+    @Column
+    private String description;
 
     public void setPosts(Posts _posts) {
         this.posts = _posts;
@@ -70,5 +76,19 @@ public class Club {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public void update(ClubRequestDto _request) {
+        this.clubName = _request.getClubName();
+        this.representative = _request.getRepresentative();
+        this.sns = _request.getSns();
+        this.inRecruit = _request.isInRecruit();
+        this.interest = _request.getInterest();
+        this.room = _request.getRoom();
+        this.recruitTarget = _request.getRecruitTarget();
+        this.recruitStart = _request.getRecruitStart();
+        this.recruitEnd = _request.getRecruitEnd();
+        this.applicationConditions = _request.getApplicationConditions();
+        this.description = _request.getDescription();
     }
 }

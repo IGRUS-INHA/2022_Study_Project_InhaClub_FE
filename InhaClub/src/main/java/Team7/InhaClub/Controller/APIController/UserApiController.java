@@ -4,6 +4,8 @@ import Team7.InhaClub.Domain.Dto.UserDto;
 import Team7.InhaClub.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,19 +19,15 @@ public class UserApiController {
 
     /** 회원 탈퇴 */
     @DeleteMapping(value = "/user/userWithdraw")
-    public ModelAndView userWithdraw(@RequestBody UserDto userDto) {
-        ModelAndView modelAndView = new ModelAndView();
+    public ResponseEntity<UserDto> userWithdraw(@RequestBody UserDto userDto) {
         userService.userDelete(userDto);
-        modelAndView.setViewName("/admin");
-        return modelAndView;
+        return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
     /** 회원 정보 수정 */
     @PostMapping(value = "/user/userUpdate")
-    public ModelAndView userUpdate(@RequestBody UserDto userDto) {
-        ModelAndView modelAndView = new ModelAndView();
+    public ResponseEntity<UserDto> userUpdate(@RequestBody UserDto userDto) {
         userService.userUpdate(userDto);
-        modelAndView.setViewName("/admin");
-        return modelAndView;
+        return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 }
