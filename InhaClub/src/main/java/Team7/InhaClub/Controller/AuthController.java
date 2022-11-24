@@ -14,6 +14,7 @@ public class AuthController {
     private final AuthService authService;
     private final EmailAuthService emailAuthService;
 
+    /** 회원가입 페이지 이동 */
     @GetMapping(value = "/user/auth")
     public ModelAndView createAuthForm() {
         ModelAndView modelAndView = new ModelAndView();
@@ -21,6 +22,7 @@ public class AuthController {
         return modelAndView;
     }
 
+    /** 로그인 페이지 이동 */
     @GetMapping(value = "/user/login")
     public ModelAndView createLoginForm() {
         ModelAndView modelAndView = new ModelAndView();

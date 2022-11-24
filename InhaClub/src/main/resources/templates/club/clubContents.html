@@ -72,6 +72,31 @@
                 }
             });
         };
+
+        function reComment(_id) {
+            if ($('#recommentPassword' + _id).val() == "" || $('#recommentPassword' + _id).val() == null) { alert("비밀번호를 입력해주세요."); }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url : "/api/club/saveComment",
+                    contentType: 'application/json',
+                    data : JSON.stringify ({
+                        "postsId" : [[${id}]],
+                        "content" : $('#recomment' + _id).val(),
+                        "username" : $('#recommentUsername' + _id).val(),
+                        "password" : $('#recommentPassword' + _id).val(),
+                        "parentId" : _id
+                    }),
+                    success : function() {
+                        alert("답글이 등록되었습니다.");
+                        window.location.reload();                    
+                    },
+                    error : function() {
+                        alert("Error!");
+                    }
+                });
+            }
+        }
     </script>
 </head>
 <body>
@@ -95,6 +120,10 @@
                     <input type="text" th:id="'password' + ${comments.id}" name="password" placeholder="비밀번호">
                     <button type="button" th:commentId="${comments.id}" th:onclick="commentModify(this.getAttribute('commentId'))">수정</button>
                     <button type="button" th:commentId="${comments.id}" th:onclick="commentDelete(this.getAttribute('commentId'))">삭제</button>
+                    <input type="text" th:id="'recommentUsername' + ${comments.id}" name="recommentUsername" placeholder="작성자">
+                    <input type="text" th:id="'recomment' + ${comments.id}" name="recomment" placeholder="답글">
+                    <input type="text" th:id="'recommentPassword' + ${comments.id}" name="recommentPassword" placeholder="비밀번호">
+                    <button type="text" th:parentId="${comments.id}" th:onclick="reComment(this.getAttribute('parentId'))">답글 등록</button>
                 </td>
             </tr>
             </tbody>

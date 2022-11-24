@@ -7,7 +7,6 @@ import Team7.InhaClub.Domain.Entity.Club;
 import Team7.InhaClub.Service.ClubService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.h2.engine.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +25,7 @@ public class ClubController {
         return "/club/registerClubForm";
     }
 
-    /** 클럽 리스트 페이지로 이동 */
+    /** 클럽 리스트 페이지 이동 */
     @GetMapping(value = "/club")
     public String list(Model model) {
         List<Club> clubs = clubService.findClubs();
@@ -35,6 +34,7 @@ public class ClubController {
         return "club/clubList";
     }
 
+    /** 클럽 상세정보 페이지 이동 */
     @GetMapping(value = "/club/{id}")
     public String clubPage(@PathVariable("id") @ModelAttribute("id") Long _id, Model model) {
         Club club = clubService.findByClubId(_id).orElseThrow(() -> new IllegalArgumentException("not found."));
@@ -49,6 +49,7 @@ public class ClubController {
         return "/club/clubContents";
     }
 
+    /** 클럽 정보 수정 페이지 이동 */
     @GetMapping(value = "/club/{id}/edit")
     public String clubEdit(@PathVariable("id") @ModelAttribute("id") Long _id, Model model) {
         model.addAttribute("_id", _id);

@@ -7,8 +7,6 @@ import Team7.InhaClub.Domain.Entity.Club;
 import Team7.InhaClub.Domain.Entity.Comments;
 import Team7.InhaClub.Service.ClubService;
 import Team7.InhaClub.Service.CommentsService;
-import Team7.InhaClub.Service.PostsService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

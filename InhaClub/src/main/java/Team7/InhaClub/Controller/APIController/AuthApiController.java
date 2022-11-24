@@ -7,6 +7,7 @@ import Team7.InhaClub.Domain.Dto.ResponseDto.TokenResponseDto;
 import Team7.InhaClub.Domain.Entity.User;
 import Team7.InhaClub.Service.AuthService;
 import Team7.InhaClub.Service.EmailAuthService;
+import antlr.Token;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +29,7 @@ public class AuthApiController {
 
     /** 회원가입 */
     @PostMapping(value = "/auth")
-    public ResponseEntity join(@RequestBody JoinDto joinDto, HttpServletResponse response) throws Exception {
+    public ResponseEntity<User> join(@RequestBody JoinDto joinDto, HttpServletResponse response) throws Exception {
         User user = joinDto.toEntity();
 
         User responseUser = authService.join(user);
@@ -85,18 +86,17 @@ public class AuthApiController {
 
     /** 로그인 */
     @PostMapping(value = "/doLogin")
-    public ResponseEntity login(@RequestBody LoginDto loginDto) throws Exception {
+    public ResponseEntity<TokenResponseDto> login(@RequestBody LoginDto loginDto) throws Exception {
         System.out.println(loginDto.getUserId() + ", " + loginDto.getUserPw());
         TokenResponseDto token = authService.doLogin(loginDto);
         log.info("login - " + loginDto.getUserId());
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
-    public String getEmailAuthCode() {
+    private String getEmailAuthCode() {
         return emailAuthCode;
     }
-
-    public void setEmailAuthCode(String emailAuthCode) {
+    private void setEmailAuthCode(String emailAuthCode) {
         this.emailAuthCode = emailAuthCode;
     }
 }

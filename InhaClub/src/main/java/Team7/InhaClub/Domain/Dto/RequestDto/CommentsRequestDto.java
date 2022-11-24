@@ -25,6 +25,8 @@ public class CommentsRequestDto {
     private String password;
     private String salt;
     private Long postsId;
+    private Comments parent;
+    private Long parentId;
 
     public Comments toEntity() {
         return Comments.builder()
@@ -36,6 +38,8 @@ public class CommentsRequestDto {
                 .username(username)
                 .password(password)
                 .salt(salt)
+                .parent(parent)
+                .deleted(false)
                 .build();
     }
 }
