@@ -1,0 +1,59 @@
+@font-face {
+    font-family: "AppleSDGothicNeo";
+    src: url("/fonts/AppleSDGothicNeoSB.woff2") format("woff2"), url("/fonts/AppleSDGothicNeoSB.woff2") format("woff2");
+  }
+.outer {
+    background-color: #fff;
+    width: 100%;
+    display: flex;
+    flex-basis: 30px;
+    margin-top:5%;
+    .container {
+        display: flex;
+        margin-top: 59px;
+        flex-direction: column;
+        font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
+    }
+
+    @mixin inputBox($h) {
+        height: $h;
+        padding: 12.7px 24px 11.3px 24px;
+        border-radius: 24px;
+        border: solid 3px #004b9e;
+        background-color: #fff;
+        font-size: 24px;
+        font-weight: 400;
+        text-align: left;
+        color: #044b97;
+    }
+    div {
+        display: flex;
+        text-align: center;
+    }
+    .inputBox_1 {
+        @include inputBox(92px);
+    }
+    .inputBox_2 {
+        @include inputBox(62.1px);
+        margin-left: 8.3%;
+    }
+    input::placeholder {
+        color: #044b97;
+    }
+    .joinText {
+        display: inline-block;
+        margin-left: 53%;
+        font-size: 20px;
+        text-align: left;
+        color: #003d81;
+    }
+}
+
+.biryong {
+    margin : {
+        left: 30%;
+        right: 0;
+    }
+    width: 9%;
+    height: 100%;
+}
