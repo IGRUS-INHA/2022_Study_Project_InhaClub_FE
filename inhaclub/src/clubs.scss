@@ -1,0 +1,141 @@
+/* GLOBAL */
+body *{ font-family: Noto Sans KR; font-weight: 400; color: #044b97; letter-spacing: -0.5px; box-sizing: border-box; }
+.txt_box ul{ list-style: none; padding: 0; margin: 0; }
+.info_box, .img_box img{ max-width: 100%; border-radius: 50px; overflow: hidden; border: 2px solid #003d81; }
+
+
+/* text style font-weight: 800 으로 변경*/
+.tit01{ 
+    font-size: 40px;
+    font-weight: 900;
+    margin-bottom: 40px;
+}
+.tit02{ 
+    font-size: 25px;
+    font-weight: 700;
+}
+.txt{ 
+    font-size: 20px;
+    word-break: keep-all;
+}
+
+/* 헤더 대체 임시용 */
+.headtit01{ 
+    font-size: 64px;
+    font-weight: 900;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* 컨텐츠 가이드 */
+#wrap{ width: 60%; margin: 0 auto; }
+
+/* 추후 헤더 추가용 공간 */
+.header_box{ width: 100%; margin: 50px 0px; border: solid #044b97; border-width: 5px 0px 5px 0px;}
+
+/* update or delete box */
+.uord_box{ width: 100%; }
+.uord_box .btn { color: #a5a5a5; font-weight: 600; float: right;}
+
+/* 인포 박스 */
+.info_box{ width: 100%; margin-bottom: 100px; }
+.info_box::after{ display: block; content: ''; visibility: hidden; clear: both; }
+.info_box .tit01{ margin-bottom: 30px; }
+.info_img{ float: left; width: 25%; }
+.info_img img{ width: 100%; }
+.info_desc{ float: left; width: 75%; padding-left: 5%; }
+.info_desc ul li{ margin-bottom: 10px; }
+.info_desc ul li:last-of-type{ margin-bottom: 0; }
+
+/* 텍스트 박스 */
+.txt_box{ margin-bottom: 65px; }
+.txt_box:last-of-type{ margin-bottom: 0; }
+.txt_box .tit02{ margin-bottom: 20px; }
+.txt_box .txt{ margin-bottom: 30px; }
+
+/* 이미지 박스 */
+.img_box{ width: 100%; text-align: center; margin-top: 100px; }
+.img_box .tit01{ margin-bottom: 40px; }
+.img_box .img_wrap{ margin-bottom: 90px; }
+
+/* 수정 및 삭제 폼 */
+
+/* 제목 input */
+.title_box {
+    .box_tit {
+        width: 100%;
+        height: 60px;
+        color: #003d81;
+        font-weight: 900;
+        font-size: 40px;
+        line-height: normal;
+        background-color: #fdfdfd;
+        border: none;
+        border-bottom: 5px solid #003d81;
+        margin: 10px 0px 30px 0px;
+        display: block;
+    }
+    input::placeholder{
+        color: #999;
+    }
+
+}
+
+/* 그 외 info-box input */
+@mixin infoinput($h) {
+    width: $h;
+    height: 35px;
+    color: #999;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #fdfdfd;
+    border: 1px solid #ebebeb;
+    border-bottom-color: #e2e2e2;
+    border-radius: .25em;
+    margin: 10px 0px 0px 0px;
+}
+
+.info_box{
+    .box_1 {
+        @include infoinput(100%);
+    }
+
+    .box_2 {
+        @include infoinput(50%);
+    }
+}
+
+/* 담당자 라인 input */
+.txt_box{
+    label{
+        width: 100%;
+    }
+    .input_txt{
+        font-size: 20px;
+        word-break: keep-all;
+        margin-bottom : 10px;
+    }
+    .box{
+        @include infoinput(50%);
+        font-size: 16px;
+        margin: 0px;
+    }
+}
+
+/* 이미지 파일 첨부 */
+.img_box{
+    .image_attach_box{
+        width: 100%;
+        height: 100px;
+        background-color: #fdfdfd;
+        border: 1px solid #ebebeb;
+        border-bottom-color: #e2e2e2;
+        border-radius: .25em;
+        margin-bottom: 50px;
+        text-align: center;
+    }
+    .input_attach{
+        margin-top: 30px;
+    }
+}
