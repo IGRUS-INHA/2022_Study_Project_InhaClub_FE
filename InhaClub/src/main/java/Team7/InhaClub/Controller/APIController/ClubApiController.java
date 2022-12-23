@@ -21,6 +21,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api")
 @Slf4j
+@CrossOrigin
 public class ClubApiController {
     private final ClubService clubService;
     private final CommentsService commentsService;

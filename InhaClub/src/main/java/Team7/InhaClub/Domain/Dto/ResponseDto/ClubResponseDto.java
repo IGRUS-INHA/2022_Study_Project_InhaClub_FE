@@ -1,6 +1,5 @@
 package Team7.InhaClub.Domain.Dto.ResponseDto;
 
-import Team7.InhaClub.Domain.Dto.RequestDto.ClubRequestDto;
 import Team7.InhaClub.Domain.Entity.Club;
 import Team7.InhaClub.Domain.Entity.Posts;
 import lombok.Getter;

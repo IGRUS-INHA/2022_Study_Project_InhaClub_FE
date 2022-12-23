@@ -22,6 +22,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api")
 @Slf4j
+@CrossOrigin
 public class AuthApiController {
     private final EmailAuthService emailAuthService;
     private final AuthService authService;

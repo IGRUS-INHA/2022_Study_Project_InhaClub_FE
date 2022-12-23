@@ -3,6 +3,8 @@ package Team7.InhaClub.Domain.Dto.ResponseDto;
 import Team7.InhaClub.Domain.Entity.Comments;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public class CommentsResponseDto {
     private final Long id;
@@ -12,6 +14,7 @@ public class CommentsResponseDto {
     private final Long postId;
     private final String username;
     private final String password;
+    private final List<Comments> children;
 
     public CommentsResponseDto(Comments comments) {
         this.id = comments.getId();
@@ -21,5 +24,6 @@ public class CommentsResponseDto {
         this.postId = comments.getPosts().getId();
         this.username = comments.getUsername();
         this.password = comments.getPassword();
+        this.children = comments.getChildren();
     }
 }

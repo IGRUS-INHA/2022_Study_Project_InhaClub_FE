@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 @Slf4j
+@CrossOrigin
 public class UserApiController {
 
     private final UserService userService;

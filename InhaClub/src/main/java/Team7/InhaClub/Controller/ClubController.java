@@ -16,6 +16,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
+@CrossOrigin
 public class ClubController {
     private final ClubService clubService;
 

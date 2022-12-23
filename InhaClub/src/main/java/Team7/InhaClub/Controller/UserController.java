@@ -12,6 +12,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
+@CrossOrigin
 @Slf4j
 public class UserController {
     private final UserService userService;

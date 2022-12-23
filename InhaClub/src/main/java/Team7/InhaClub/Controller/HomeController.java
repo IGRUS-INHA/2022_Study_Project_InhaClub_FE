@@ -1,9 +1,11 @@
 package Team7.InhaClub.Controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
+@CrossOrigin
 public class HomeController {
 
     /** 메인페이지 */

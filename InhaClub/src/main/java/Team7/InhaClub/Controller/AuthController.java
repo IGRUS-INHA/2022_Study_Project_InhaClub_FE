@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin
 public class AuthController {
     private final AuthService authService;
     private final EmailAuthService emailAuthService;
